@@ -1,0 +1,82 @@
+{ 
+    "Domain": "LoyalGuard"
+	, "Structure": [
+		{
+			"Name": "LGRole"
+			, "AdditionalPatterns": [
+				"Choice"
+			]
+			, "Choices": [
+				"Unknown"
+				, "User"
+				, "Auditor"
+				, "Administrator"
+			]
+		}
+		, {
+			"Name": "LGFeature"
+			, "AdditionalPatterns": [
+				"Choice"
+			]
+			, "Choices": [
+				"Feature1"
+				, "Feature2"
+				, "Feature3"
+				, "Feature4"
+			]
+		}
+		, {
+			"Name": "LGRight"
+			, "AdditionalPatterns": [
+				"Choice"
+			]
+			, "Choices": [
+				"None"
+				, "View"
+				, "Edit"
+				, "View, Run"
+				, "Edit, Run"
+				, "All"
+				, "Other"
+			]
+		}
+		, {
+			"Name": "LGAccount"
+			, "Fields": [
+				  { "Name": "LastName", "Type": "S", "Faker": "f.Name.LastName(0)" }
+				, { "Name": "FirstName", "Type": "S", "Faker": "f.Name.FirstName(0)" }
+				, { "Name": "MiddleName", "Type": "S", "Faker": "f.Name.FirstName(0)" }
+				, { "Name": "UserName", "Type": "S", "Faker": "f.Internet.UserName(m.FirstName, m.LastName)" }
+				, { "Name": "Email", "Type": "S", "Faker": "f.Internet.Email(m.FirstName, m.LastName)" }
+				, { "Name": "Password", "Type": "S" }
+				, { "Name": "PasswordConfirmation", "Type": "S" }
+				, { "Name": "PasswordHashed", "Type": "S" }
+			]
+			, "References": [
+				{
+					"ColumnName": "Role"
+					, "TableName": "LGRole"
+				}
+			]
+			, "Children": [
+				{
+					"Name": "LGPrivilege"
+					, "Fields": [
+						{ "Name": "Starts", "Type": "D" }
+						, { "Name": "Ends", "Type": "D" }
+				  ]
+				  , "References": [
+						{
+							"ColumnName": "Feature"
+							, "TableName": "LGFeature"
+						}
+						, {
+							"ColumnName": "Right"
+							, "TableName": "LGRight"
+						}
+					]
+				}
+			]
+		}
+	]
+}
