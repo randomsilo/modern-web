@@ -56,6 +56,7 @@ vue create modern-web-vue
 
 cd modern-web-vue
 npm install --save vue-router
+npm install --save axios vue-axios
 npm install --save bootstrap-vue portal-vue bootstrap jquery popper.js
 npm run serve
 ```

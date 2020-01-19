@@ -1,0 +1,13 @@
+---
+--- LoyalGuard.LGToken
+---
+CREATE TABLE LGToken (
+	LGTokenId INTEGER PRIMARY KEY AUTOINCREMENT
+	, LGAccountId INTEGER
+	, Token TEXT
+	, Created TIMESTAMP
+	, LastUsed TIMESTAMP
+	, Expires TIMESTAMP
+	, FOREIGN KEY (LGAccountId) REFERENCES LGAccount(LGAccountId) ON DELETE CASCADE
+);
+---

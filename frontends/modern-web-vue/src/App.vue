@@ -13,6 +13,9 @@
                 <li class="nav-item">
                     <router-link class="nav-link" to="/table">Table</router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/login">Login</router-link>
+                </li>
             </ul>
         </div>
     </nav>

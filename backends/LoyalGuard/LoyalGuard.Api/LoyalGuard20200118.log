@@ -1,0 +1,164 @@
+2020-01-18 20:49:38.787 -06:00 [VRB] 
+			INSERT INTO LGAccount (
+				--- Columns
+				LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			) VALUES (
+				--- Values
+				@LastName
+				, @FirstName
+				, @MiddleName
+				, @UserName
+				, @Email
+				, @Password
+				, @PasswordConfirmation
+				, @PasswordHashed
+				, @RoleIdRef
+			);
+			SELECT last_insert_rowid();
+			
+2020-01-18 20:49:39.073 -06:00 [VRB] 
+			SELECT
+				--- Columns
+				LGAccountId
+				, LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			FROM
+				LGAccount
+			WHERE
+				LGAccountId = IFNULL(@LGAccountId,0)
+			;
+			
+2020-01-18 20:50:04.750 -06:00 [VRB] 
+			SELECT
+				--- Columns
+				LGAccountId
+				, LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			FROM
+				LGAccount
+			
+			 WHERE 1 = 1 ORDER BY 1 
+2020-01-18 20:52:23.804 -06:00 [VRB] 
+			SELECT
+				--- Columns
+				LGAccountId
+				, LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			FROM
+				LGAccount
+			
+			 WHERE 1 = 1 ORDER BY 1 
+2020-01-18 21:09:52.178 -06:00 [VRB] 
+			SELECT
+				--- Columns
+				LGAccountId
+				, LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			FROM
+				LGAccount
+			
+			 WHERE 1 = 1 ORDER BY 1 
+2020-01-18 21:26:25.480 -06:00 [VRB] 
+			SELECT
+				--- Columns
+				LGAccountId
+				, LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			FROM
+				LGAccount
+			
+			 WHERE 1 = 1 ORDER BY 1 
+2020-01-18 21:27:29.651 -06:00 [VRB] 
+			SELECT
+				--- Columns
+				LGAccountId
+				, LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			FROM
+				LGAccount
+			
+			 WHERE UserName = ttt
+2020-01-18 21:28:31.094 -06:00 [VRB] 
+			SELECT
+				--- Columns
+				LGAccountId
+				, LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			FROM
+				LGAccount
+			
+			 WHERE UserName = 'ttt' 
+2020-01-18 21:30:49.828 -06:00 [VRB] 
+			SELECT
+				--- Columns
+				LGAccountId
+				, LastName
+				, FirstName
+				, MiddleName
+				, UserName
+				, Email
+				, Password
+				, PasswordConfirmation
+				, PasswordHashed
+				, RoleIdRef
+			FROM
+				LGAccount
+			
+			 WHERE UserName = 'dan' 

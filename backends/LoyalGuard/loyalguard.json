@@ -76,6 +76,15 @@
 						}
 					]
 				}
+				, {
+					"Name": "LGToken"
+					, "Fields": [
+						{ "Name": "Token", "Type": "S" }
+						, { "Name": "Created", "Type": "D" }
+						, { "Name": "LastUsed", "Type": "D" }
+						, { "Name": "Expires", "Type": "D" }
+					]
+				}
 			]
 		}
 	]
