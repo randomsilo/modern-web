@@ -73,6 +73,11 @@ namespace LoyalGuard.Api
 			containerBuilder.Register<LGTokenRepository>((c) => { return new LGTokenRepository( c.Resolve<IManageDatabase>(), c.Resolve<LGTokenRepositorySql>(), c.Resolve<Serilog.ILogger>()); });
 			containerBuilder.Register<LGTokenService>((c) => { return new LGTokenService( c.Resolve<LGTokenRepository>(), c.Resolve<Serilog.ILogger>()); });
 			
+      // AuthService
+      containerBuilder.Register<AuthService>((c) => { return new AuthService( c.Resolve<LGAccountService>(), c.Resolve<LGTokenService>(), c.Resolve<Serilog.ILogger>()); });
+			
+
+
 			// BasicAuth
 			containerBuilder.Register<IBrashApiAuthService>((c) => {
 				return new BrashApiAuthService().AddAuthAccount(

@@ -36,20 +36,27 @@ export default {
     , loginSuccessful (req) {
       debugger;
 
-      if (!req.data.token) {
+      if (req.data.token == null) {
         this.loginFailed();
         return
       }
 
-      localStorage.token = req.data.token
-      this.error = false
+      if (req.data.token.expires < new Date()) {
+        this.loginFailed();
+        return
+      }
+
+      localStorage.account = JSON.stringify(req.data.account);
+      localStorage.token = JSON.stringify(req.data.token);
+      this.error = false;
 
       this.$router.replace(this.$route.query.redirect || '/')
     }
 
     , loginFailed() {
-      this.error = 'Login failed!'
-      delete localStorage.token
+      this.error = 'Login failed!';
+      delete localStorage.account;
+      delete localStorage.token;
     }
 
   }

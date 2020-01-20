@@ -27,7 +27,11 @@
 
 <script>
 export default {
-  components: {
+  updated () {
+    var anonymousRoutes = ['/', '/login', '/logout', '/terms', '/privacy'];
+    if (!localStorage.token && !anonymousRoutes.includes(this.$route.path)) {
+      this.$router.push('/login?redirect=' + this.$route.path);
+    }
   }
 }
 </script>

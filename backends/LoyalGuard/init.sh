@@ -69,6 +69,7 @@ dotnet add package System.Data.SQLite
 dotnet add package Dapper
 dotnet add package Serilog
 dotnet add package Brash
+dotnet add package BCrypt.Net-Next
 cd ..
 
 cd $PROJECT.Infrastructure.Test

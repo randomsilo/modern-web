@@ -12,30 +12,32 @@ namespace LoyalGuard.Api.Controllers
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
-    private LGAccountService _lGAccountService { get; set; }
-		private LGTokenService _lGTokenService { get; set; }
+    private AuthService _authService { get; set; }
     
 		private Serilog.ILogger _logger { get; set; }
 		
-		public AuthController(LGAccountService lGAccountService, LGTokenService lGTokenService, Serilog.ILogger logger) : base()
+		public AuthController(AuthService authService, Serilog.ILogger logger) : base()
 		{
-      _lGAccountService = lGAccountService;
-			_lGTokenService = lGTokenService;
+      _authService = authService;
 			_logger = logger;
 		}
 		
 		// POST api/Auth
 		[HttpPost]
-		public ActionResult<LGToken> Post([FromBody] LGAccount incomingAccount)
+		public ActionResult<AccountToken> Post([FromBody] AccountSignin accountSignin)
 		{
-			var token = new LGToken();
-			var accountSearchResults = _lGAccountService.FindWhere($"WHERE UserName = '{incomingAccount.UserName}' ");
+      var result = _authService.Authenticate(accountSignin);
 
-      if (accountSearchResults.Models.Count == 0)
-        return NotFound();
+      if (result.Status == BrashActionStatus.ERROR || result.Status == BrashActionStatus.UNKNOWN)
+        return StatusCode(500);
 
+      if (result.Status == BrashActionStatus.NOT_FOUND)
+        return StatusCode(404);
 
-			return token;
+      if (result.Model == null)
+        return StatusCode(404);
+
+			return result.Model;
 		}
 		
 		
