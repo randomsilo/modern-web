@@ -12,7 +12,7 @@ using LoyalGuard.Infrastructure.Test.Sqlite.Faker;
 
 namespace LoyalGuard.Infrastructure.Test.Sqlite.Repository
 {
-	public class LGRightRepositoryTest
+	public class LGAbilityRepositoryTest
 	{
 		public string GetDatabase(string path, MethodBase methodBase)
 		{
@@ -62,60 +62,60 @@ namespace LoyalGuard.Infrastructure.Test.Sqlite.Repository
 			databaseManager.CreateDatabase();
 
 			// - repository
-			var lGRightRepository = new LGRightRepository(databaseManager, new LGRightRepositorySql(), logger);
-			Assert.NotNull(lGRightRepository);
+			var lGAbilityRepository = new LGAbilityRepository(databaseManager, new LGAbilityRepositorySql(), logger);
+			Assert.NotNull(lGAbilityRepository);
 
 			// faker
-			BrashActionResult<LGRight> result = null;
-			var lGRightFaker = new LGRightFaker(databaseManager, logger);
-			Assert.NotNull(lGRightFaker);
+			BrashActionResult<LGAbility> result = null;
+			var lGAbilityFaker = new LGAbilityFaker(databaseManager, logger);
+			Assert.NotNull(lGAbilityFaker);
 
 			// create
-			var lGRightCreateModel = lGRightFaker.GetOne();
-			result = lGRightRepository.Create(lGRightCreateModel);
+			var lGAbilityCreateModel = lGAbilityFaker.GetOne();
+			result = lGAbilityRepository.Create(lGAbilityCreateModel);
 			Assert.True(result.Status == BrashActionStatus.SUCCESS, result.Message);
-			Assert.True(result.Model.LGRightId > 0);
+			Assert.True(result.Model.LGAbilityId > 0);
 
 			// use model with id
-			lGRightCreateModel = result.Model;
+			lGAbilityCreateModel = result.Model;
 
 			// update
-			var lGRightUpdateModel = lGRightFaker.GetOne();
-			lGRightUpdateModel.LGRightId = lGRightCreateModel.LGRightId;
-			result = lGRightRepository.Update(lGRightUpdateModel);
+			var lGAbilityUpdateModel = lGAbilityFaker.GetOne();
+			lGAbilityUpdateModel.LGAbilityId = lGAbilityCreateModel.LGAbilityId;
+			result = lGAbilityRepository.Update(lGAbilityUpdateModel);
 			Assert.True(result.Status == BrashActionStatus.SUCCESS, result.Message);
 
 			// delete
-			result = lGRightRepository.Delete(lGRightCreateModel);
+			result = lGAbilityRepository.Delete(lGAbilityCreateModel);
 			Assert.True(result.Status == BrashActionStatus.SUCCESS, result.Message);
 
 			// fetch
 
 			// - make fakes
-			var fakes = lGRightFaker.GetMany(10);
+			var fakes = lGAbilityFaker.GetMany(10);
 
 			// - add fakes to database
 			List<int?> ids = new List<int?>();
 			foreach (var f in fakes)
 			{
-				result = lGRightRepository.Create(f);
+				result = lGAbilityRepository.Create(f);
 
 				Assert.True(result.Status == BrashActionStatus.SUCCESS, result.Message);
-				Assert.True(result.Model.LGRightId >= 0);
-				ids.Add(result.Model.LGRightId);
+				Assert.True(result.Model.LGAbilityId >= 0);
+				ids.Add(result.Model.LGAbilityId);
 			}
 
 			// - get fakes from database
 			foreach(var id in ids)
 			{
-				var model = new LGRight()
+				var model = new LGAbility()
 				{
-					LGRightId = id
+					LGAbilityId = id
 				};
 
-				result = lGRightRepository.Fetch(model);
+				result = lGAbilityRepository.Fetch(model);
 				Assert.True(result.Status == BrashActionStatus.SUCCESS, result.Message);
-				Assert.True(result.Model.LGRightId >= 0);
+				Assert.True(result.Model.LGAbilityId >= 0);
 			}
 		}
 

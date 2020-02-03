@@ -24,7 +24,7 @@ namespace LoyalGuard.Api.Controllers
 		
 		// POST api/Auth
 		[HttpPost]
-		public ActionResult<AccountToken> Post([FromBody] AccountSignin accountSignin)
+		public ActionResult<AccountAccess> Post([FromBody] AccountSignin accountSignin)
 		{
       var result = _authService.Authenticate(accountSignin);
 

@@ -30,11 +30,11 @@ namespace LoyalGuard.Infrastructure.Test.Sqlite.Faker
 			var featureFakeResult = featureRepository.Create(featureFake);
 			featureFake = featureFakeResult.Model;
 			
-			var rightFaker = new LGRightFaker(databaseManager, logger);
-			var rightFake = rightFaker.GetOne();
-			var rightRepository = new LGRightRepository(databaseManager, new LGRightRepositorySql(), logger);
-			var rightFakeResult = rightRepository.Create(rightFake);
-			rightFake = rightFakeResult.Model;
+			var abilityFaker = new LGAbilityFaker(databaseManager, logger);
+			var abilityFake = abilityFaker.GetOne();
+			var abilityRepository = new LGAbilityRepository(databaseManager, new LGAbilityRepositorySql(), logger);
+			var abilityFakeResult = abilityRepository.Create(abilityFake);
+			abilityFake = abilityFakeResult.Model;
 			
 			_faker = new Bogus.Faker<LGPrivilege>()
 				.StrictMode(false)
@@ -45,7 +45,7 @@ namespace LoyalGuard.Infrastructure.Test.Sqlite.Faker
 					m.Starts = f.Date.Past();
 					m.Ends = f.Date.Past();
 					m.FeatureIdRef = featureFake.LGFeatureId;
-					m.RightIdRef = rightFake.LGRightId;
+					m.AbilityIdRef = abilityFake.LGAbilityId;
 				});
 		}
 

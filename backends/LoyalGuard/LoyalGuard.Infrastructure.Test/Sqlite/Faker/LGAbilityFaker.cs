@@ -9,33 +9,33 @@ using LoyalGuard.Infrastructure.Sqlite.RepositorySql;
 
 namespace LoyalGuard.Infrastructure.Test.Sqlite.Faker
 {
-	public class LGRightFaker
+	public class LGAbilityFaker
 	{
-		private Bogus.Faker<LGRight> _faker;
-		public LGRightFaker(IManageDatabase databaseManager, ILogger logger)
+		private Bogus.Faker<LGAbility> _faker;
+		public LGAbilityFaker(IManageDatabase databaseManager, ILogger logger)
 		{
 			var random = new Random();
 			int randomNumber = random.Next();
 			Bogus.Randomizer.Seed = new Random(randomNumber);
 			int counter = 1;
 			
-			_faker = new Bogus.Faker<LGRight>()
+			_faker = new Bogus.Faker<LGAbility>()
 				.StrictMode(false)
 				.Rules((f, m) =>
 				{
-					m.LGRightId = null;
+					m.LGAbilityId = null;
 					m.ChoiceName = f.Lorem.Sentence(3);
 					m.OrderNo = counter++;
 					m.IsDisabled = false;
 				});
 		}
 
-		public LGRight GetOne()
+		public LGAbility GetOne()
 		{
 			return _faker.Generate(1).First();
 		}
 		
-		public List<LGRight> GetMany(int count)
+		public List<LGAbility> GetMany(int count)
 		{
 			return _faker.Generate(count);
 		}

@@ -13,7 +13,7 @@ using LoyalGuard.Infrastructure.Test.Sqlite.Faker;
 
 namespace LoyalGuard.Infrastructure.Test.Sqlite.Service
 {
-	public class LGRightServiceTest
+	public class LGAbilityServiceTest
 	{
 		public string GetDatabase(string path, MethodBase methodBase)
 		{
@@ -63,64 +63,64 @@ namespace LoyalGuard.Infrastructure.Test.Sqlite.Service
 			databaseManager.CreateDatabase();
 
 			// - repository
-			var lGRightRepository = new LGRightRepository(databaseManager, new LGRightRepositorySql(), logger);
-			Assert.NotNull(lGRightRepository);
+			var lGAbilityRepository = new LGAbilityRepository(databaseManager, new LGAbilityRepositorySql(), logger);
+			Assert.NotNull(lGAbilityRepository);
 
 			// - service
-			var lGRightService = new LGRightService(lGRightRepository, logger);
-			Assert.NotNull(lGRightService);
+			var lGAbilityService = new LGAbilityService(lGAbilityRepository, logger);
+			Assert.NotNull(lGAbilityService);
 
 			// faker
-			BrashActionResult<LGRight> serviceResult = null;
-			var lGRightFaker = new LGRightFaker(databaseManager, logger);
-			Assert.NotNull(lGRightFaker);
+			BrashActionResult<LGAbility> serviceResult = null;
+			var lGAbilityFaker = new LGAbilityFaker(databaseManager, logger);
+			Assert.NotNull(lGAbilityFaker);
 
 			// create
-			var lGRightCreateModel = lGRightFaker.GetOne();
-			serviceResult = lGRightService.Create(lGRightCreateModel);
+			var lGAbilityCreateModel = lGAbilityFaker.GetOne();
+			serviceResult = lGAbilityService.Create(lGAbilityCreateModel);
 			Assert.True(serviceResult.Status == BrashActionStatus.SUCCESS, serviceResult.Message);
-			Assert.True(serviceResult.Model.LGRightId > 0);
+			Assert.True(serviceResult.Model.LGAbilityId > 0);
 
 			// use model with id
-			lGRightCreateModel = serviceResult.Model;
+			lGAbilityCreateModel = serviceResult.Model;
 
 			// update
-			var lGRightUpdateModel = lGRightFaker.GetOne();
-			lGRightUpdateModel.LGRightId = lGRightCreateModel.LGRightId;
-			serviceResult = lGRightService.Update(lGRightUpdateModel);
+			var lGAbilityUpdateModel = lGAbilityFaker.GetOne();
+			lGAbilityUpdateModel.LGAbilityId = lGAbilityCreateModel.LGAbilityId;
+			serviceResult = lGAbilityService.Update(lGAbilityUpdateModel);
 			Assert.True(serviceResult.Status == BrashActionStatus.SUCCESS, serviceResult.Message);
 
 			// delete
-			serviceResult = lGRightService.Delete(lGRightCreateModel);
+			serviceResult = lGAbilityService.Delete(lGAbilityCreateModel);
 			Assert.True(serviceResult.Status == BrashActionStatus.SUCCESS, serviceResult.Message);
 
 			// fetch
 
 			// - make fakes
-			var fakes = lGRightFaker.GetMany(10);
+			var fakes = lGAbilityFaker.GetMany(10);
 
 			// - add fakes to database
 			List<int?> ids = new List<int?>();
 			foreach (var f in fakes)
 			{
-				serviceResult = lGRightService.Create(f);
+				serviceResult = lGAbilityService.Create(f);
 
 				Assert.True(serviceResult.Status == BrashActionStatus.SUCCESS, serviceResult.Message);
-				Assert.True(serviceResult.Model.LGRightId >= 0);
-				ids.Add(serviceResult.Model.LGRightId);
+				Assert.True(serviceResult.Model.LGAbilityId >= 0);
+				ids.Add(serviceResult.Model.LGAbilityId);
 			}
 
 			// - get fakes from database
 			foreach(var id in ids)
 			{
-				var model = new LGRight()
+				var model = new LGAbility()
 				{
-					LGRightId = id
+					LGAbilityId = id
 				};
 
-				serviceResult = lGRightService.Fetch(model);
+				serviceResult = lGAbilityService.Fetch(model);
 				Assert.True(serviceResult.Status == BrashActionStatus.SUCCESS, serviceResult.Message);
-				Assert.True(serviceResult.Model.LGRightId >= 0);
+				Assert.True(serviceResult.Model.LGAbilityId >= 0);
 			}
 		}
 

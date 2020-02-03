@@ -3,12 +3,12 @@ using Brash.Infrastructure;
 
 namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 {
-	public class LGRightRepositorySql : AAskIdRepositorySql
+	public class LGAbilityRepositorySql : AAskIdRepositorySql
 	{
-		public LGRightRepositorySql() : base()
+		public LGAbilityRepositorySql() : base()
 		{
 			_sql[AskIdRepositorySqlTypes.CREATE] = @"
-			INSERT INTO LGRight (
+			INSERT INTO LGAbility (
 				--- Columns
 				ChoiceName
 				, OrderNo
@@ -25,42 +25,42 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 			_sql[AskIdRepositorySqlTypes.FETCH] = @"
 			SELECT
 				--- Columns
-				LGRightId
+				LGAbilityId
 				, ChoiceName
 				, OrderNo
 				, IsDisabled
 			FROM
-				LGRight
+				LGAbility
 			WHERE
-				LGRightId = IFNULL(@LGRightId,0)
+				LGAbilityId = IFNULL(@LGAbilityId,0)
 			;
 			";
 
 			_sql[AskIdRepositorySqlTypes.UPDATE] = @"
-			UPDATE LGRight
+			UPDATE LGAbility
 			SET
 				ChoiceName = @ChoiceName
 				, OrderNo = @OrderNo
 				, IsDisabled = @IsDisabled
 			WHERE
-				LGRightId = IFNULL(@LGRightId,0)
+				LGAbilityId = IFNULL(@LGAbilityId,0)
 			";
 
 			_sql[AskIdRepositorySqlTypes.DELETE] = @"
-			DELETE FROM LGRight
+			DELETE FROM LGAbility
 			WHERE
-				LGRightId = IFNULL(@LGRightId,0)
+				LGAbilityId = IFNULL(@LGAbilityId,0)
 			";
 
 			_sql[AskIdRepositorySqlTypes.FIND] = @"
 			SELECT
 				--- Columns
-				LGRightId
+				LGAbilityId
 				, ChoiceName
 				, OrderNo
 				, IsDisabled
 			FROM
-				LGRight
+				LGAbility
 			
 			";
 

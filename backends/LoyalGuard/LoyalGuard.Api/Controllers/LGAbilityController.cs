@@ -10,38 +10,38 @@ namespace LoyalGuard.Api.Controllers
 	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
-	public class LGRightController : ControllerBase
+	public class LGAbilityController : ControllerBase
 	{
-		private LGRightService _lGRightService { get; set; }
+		private LGAbilityService _lGAbilityService { get; set; }
 		private Serilog.ILogger _logger { get; set; }
 		
-		public LGRightController(LGRightService lGRightService, Serilog.ILogger logger) : base()
+		public LGAbilityController(LGAbilityService lGAbilityService, Serilog.ILogger logger) : base()
 		{
-			_lGRightService = lGRightService;
+			_lGAbilityService = lGAbilityService;
 			_logger = logger;
 		}
 		
-		// GET /api/LGRight/
+		// GET /api/LGAbility/
 		[HttpGet]
-		public ActionResult<IEnumerable<LGRight>> Get()
+		public ActionResult<IEnumerable<LGAbility>> Get()
 		{
-			var queryResult = _lGRightService.FindWhere("WHERE IFNULL(IsDisabled, 0) = 0 ORDER BY OrderNo ");
+			var queryResult = _lGAbilityService.FindWhere("WHERE IFNULL(IsDisabled, 0) = 0 ORDER BY OrderNo ");
 			if (queryResult.Status == BrashQueryStatus.ERROR)
 				return BadRequest(queryResult.Message);
 		
 			return queryResult.Models;
 		}
 		
-		// GET api/LGRight/5
+		// GET api/LGAbility/5
 		[HttpGet("{id}")]
-		public ActionResult<LGRight> Get(int id)
+		public ActionResult<LGAbility> Get(int id)
 		{
-			var model = new LGRight()
+			var model = new LGAbility()
 			{
-				LGRightId = id
+				LGAbilityId = id
 			};
 		
-			var serviceResult = _lGRightService.Fetch(model);
+			var serviceResult = _lGAbilityService.Fetch(model);
 			if (serviceResult.Status == BrashActionStatus.ERROR)
 				return BadRequest(serviceResult.Message);
 			if (serviceResult.Status == BrashActionStatus.NOT_FOUND)
@@ -50,24 +50,24 @@ namespace LoyalGuard.Api.Controllers
 			return serviceResult.Model;
 		}
 		
-		// POST api/LGRight
+		// POST api/LGAbility
 		[HttpPost]
-		public ActionResult<LGRight> Post([FromBody] LGRight model)
+		public ActionResult<LGAbility> Post([FromBody] LGAbility model)
 		{
-			var serviceResult = _lGRightService.Create(model);
+			var serviceResult = _lGAbilityService.Create(model);
 			if (serviceResult.Status == BrashActionStatus.ERROR)
 				return BadRequest(serviceResult.Message);
 			
 			return serviceResult.Model;
 		}
 		
-		// PUT api/LGRight/6
+		// PUT api/LGAbility/6
 		[HttpPut("{id}")]
-		public ActionResult<LGRight> Put(int id, [FromBody] LGRight model)
+		public ActionResult<LGAbility> Put(int id, [FromBody] LGAbility model)
 		{
-			model.LGRightId = id;
+			model.LGAbilityId = id;
 			
-			var serviceResult = _lGRightService.Update(model);
+			var serviceResult = _lGAbilityService.Update(model);
 			if (serviceResult.Status == BrashActionStatus.ERROR)
 				return BadRequest(serviceResult.Message);
 			if (serviceResult.Status == BrashActionStatus.NOT_FOUND)
@@ -76,16 +76,16 @@ namespace LoyalGuard.Api.Controllers
 			return serviceResult.Model;
 		}
 		
-		// DELETE api/LGRight/6
+		// DELETE api/LGAbility/6
 		[HttpDelete("{id}")]
-		public ActionResult<LGRight> Delete(int id)
+		public ActionResult<LGAbility> Delete(int id)
 		{
-			var model = new LGRight()
+			var model = new LGAbility()
 			{
-				LGRightId = id
+				LGAbilityId = id
 			};
 		
-			var serviceResult = _lGRightService.Delete(model);
+			var serviceResult = _lGAbilityService.Delete(model);
 			if (serviceResult.Status == BrashActionStatus.ERROR)
 				return BadRequest(serviceResult.Message);
 		

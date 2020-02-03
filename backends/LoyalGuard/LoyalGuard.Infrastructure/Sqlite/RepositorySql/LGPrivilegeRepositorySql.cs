@@ -14,14 +14,14 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, Starts
 				, Ends
 				, FeatureIdRef
-				, RightIdRef
+				, AbilityIdRef
 			) VALUES (
 				--- Values
 				@LGAccountId
 				, @Starts
 				, @Ends
 				, @FeatureIdRef
-				, @RightIdRef
+				, @AbilityIdRef
 			);
 			SELECT last_insert_rowid();
 			";
@@ -34,7 +34,7 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, datetime(Starts,'unixepoch') AS Starts
 				, datetime(Ends,'unixepoch') AS Ends
 				, FeatureIdRef
-				, RightIdRef
+				, AbilityIdRef
 			FROM
 				LGPrivilege
 			WHERE
@@ -49,7 +49,7 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, Starts = @Starts
 				, Ends = @Ends
 				, FeatureIdRef = @FeatureIdRef
-				, RightIdRef = @RightIdRef
+				, AbilityIdRef = @AbilityIdRef
 			WHERE
 				LGPrivilegeId = IFNULL(@LGPrivilegeId,0)
 			";
@@ -68,7 +68,7 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, datetime(Starts,'unixepoch') AS Starts
 				, datetime(Ends,'unixepoch') AS Ends
 				, FeatureIdRef
-				, RightIdRef
+				, AbilityIdRef
 			FROM
 				LGPrivilege
 			

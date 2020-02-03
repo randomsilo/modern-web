@@ -22,6 +22,10 @@ namespace LoyalGuard.Infrastructure.Sqlite.Service
 
 		public BrashActionResult<LGAccount> Create(LGAccount model)
 		{
+      if (!Utility.Hashing.isHashed(model.Password))
+      {
+        model.Password = Utility.Hashing.HashPassword(model.Password);
+      }
 			return Repository.Create(model);
 		}
 
@@ -32,6 +36,10 @@ namespace LoyalGuard.Infrastructure.Sqlite.Service
 
 		public BrashActionResult<LGAccount> Update(LGAccount model)
 		{
+      if (!Utility.Hashing.isHashed(model.Password))
+      {
+        model.Password = Utility.Hashing.HashPassword(model.Password);
+      }
 			return Repository.Update(model);
 		}
 

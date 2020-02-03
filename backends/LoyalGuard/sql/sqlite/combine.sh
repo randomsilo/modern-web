@@ -1,7 +1,7 @@
 cat \
 LGRole.sql \
 LGFeature.sql \
-LGRight.sql \
+LGAbility.sql \
 LGAccount.sql \
 LGPrivilege.sql \
 LGToken.sql > ALL.sql

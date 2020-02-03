@@ -35,8 +35,6 @@ namespace LoyalGuard.Infrastructure.Test.Sqlite.Faker
 					m.UserName = f.Internet.UserName(m.FirstName, m.LastName);
 					m.Email = f.Internet.Email(m.FirstName, m.LastName);
 					m.Password = f.Lorem.Sentence(10);
-					m.PasswordConfirmation = f.Lorem.Sentence(10);
-					m.PasswordHashed = f.Lorem.Sentence(10);
 					m.RoleIdRef = roleFake.LGRoleId;
 				});
 		}

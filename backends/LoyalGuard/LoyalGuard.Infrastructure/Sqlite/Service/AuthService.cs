@@ -11,23 +11,38 @@ namespace LoyalGuard.Infrastructure.Sqlite.Service
 	{
 		protected ILogger Logger { get; set; }
     protected LGAccountService _lGAccountService { get; set; }
+    protected LGPrivilegeService _lGPrivilegeService { get; set; }
+    protected LGFeatureService _lGFeatureService { get; set; }
+    protected LGAbilityService _lGAbilityService { get; set; }
+    protected LGRoleService _lGRoleService { get; set; }
     protected LGTokenService _lGTokenService { get; set; }
 
-		public AuthService(LGAccountService lGAccountService, LGTokenService lGTokenService, ILogger logger)
+		public AuthService(
+      LGAccountService lGAccountService
+      , LGTokenService lGTokenService
+      , LGPrivilegeService lGPrivilegeService
+      , LGFeatureService lGFeatureService
+      , LGAbilityService lGAbilityService
+      , LGRoleService lGRoleService
+      , ILogger logger)
 		{
 			Logger = logger;
       _lGAccountService = lGAccountService;
       _lGTokenService = lGTokenService;
+      _lGPrivilegeService = _lGPrivilegeService;
+      _lGFeatureService = lGFeatureService;
+      _lGAbilityService = lGAbilityService;
+      _lGRoleService = lGRoleService;
 
 		}
 
-		public BrashActionResult<AccountToken> Authenticate(AccountSignin model)
+		public BrashActionResult<AccountAccess> Authenticate(AccountSignin model)
     {
-      BrashActionResult<AccountToken> authResult = new BrashActionResult<AccountToken>();
+      BrashActionResult<AccountAccess> authResult = new BrashActionResult<AccountAccess>();
 
       authResult.Status = BrashActionStatus.UNKNOWN;
       authResult.Message = "";
-      authResult.Model = new AccountToken();
+      authResult.Model = new AccountAccess();
 
       var userName = model.UserName.RemoveSpecialCharacters();
       Logger.Information($"Authenticate -> USER: {model.UserName}, USER_STRIPPED: {userName}, PASS: {model.Password}");
@@ -45,8 +60,6 @@ namespace LoyalGuard.Infrastructure.Sqlite.Service
           
           // set account
           foundAccount.Password = null;
-          foundAccount.PasswordConfirmation = null;
-          foundAccount.PasswordHashed = null;
 
           authResult.Status = BrashActionStatus.SUCCESS;
           authResult.Message = "Authentication successful.";

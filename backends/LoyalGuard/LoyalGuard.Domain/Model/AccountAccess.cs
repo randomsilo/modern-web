@@ -7,14 +7,17 @@ using Brash.Model;
 
 namespace LoyalGuard.Domain.Model
 {
-	public class AccountToken
+	public class AccountAccess
 	{
 
-		public AccountToken()
+		public AccountAccess()
 		{
 		}
 		public LGAccount Account { get; set; }
 		public LGToken Token { get; set; }
+
+    public List<string> Roles { get; set; }
+		public Dictionary<string,List<string>> Privileges { get; set; }
 		
 
 	}

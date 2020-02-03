@@ -16,8 +16,6 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, UserName
 				, Email
 				, Password
-				, PasswordConfirmation
-				, PasswordHashed
 				, RoleIdRef
 			) VALUES (
 				--- Values
@@ -27,8 +25,6 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, @UserName
 				, @Email
 				, @Password
-				, @PasswordConfirmation
-				, @PasswordHashed
 				, @RoleIdRef
 			);
 			SELECT last_insert_rowid();
@@ -44,8 +40,6 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, UserName
 				, Email
 				, Password
-				, PasswordConfirmation
-				, PasswordHashed
 				, RoleIdRef
 			FROM
 				LGAccount
@@ -63,8 +57,6 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, UserName = @UserName
 				, Email = @Email
 				, Password = @Password
-				, PasswordConfirmation = @PasswordConfirmation
-				, PasswordHashed = @PasswordHashed
 				, RoleIdRef = @RoleIdRef
 			WHERE
 				LGAccountId = IFNULL(@LGAccountId,0)
@@ -86,8 +78,6 @@ namespace LoyalGuard.Infrastructure.Sqlite.RepositorySql
 				, UserName
 				, Email
 				, Password
-				, PasswordConfirmation
-				, PasswordHashed
 				, RoleIdRef
 			FROM
 				LGAccount

@@ -26,18 +26,18 @@
 			]
 		}
 		, {
-			"Name": "LGRight"
+			"Name": "LGAbility"
 			, "AdditionalPatterns": [
 				"Choice"
 			]
 			, "Choices": [
 				"None"
 				, "View"
-				, "Edit"
-				, "View, Run"
-				, "Edit, Run"
-				, "All"
-				, "Other"
+        , "Edit"
+        , "Delete"
+        , "Run"
+        , "Import"
+        , "Export"
 			]
 		}
 		, {
@@ -49,8 +49,6 @@
 				, { "Name": "UserName", "Type": "S", "Faker": "f.Internet.UserName(m.FirstName, m.LastName)" }
 				, { "Name": "Email", "Type": "S", "Faker": "f.Internet.Email(m.FirstName, m.LastName)" }
 				, { "Name": "Password", "Type": "S" }
-				, { "Name": "PasswordConfirmation", "Type": "S" }
-				, { "Name": "PasswordHashed", "Type": "S" }
 			]
 			, "References": [
 				{
@@ -71,8 +69,8 @@
 							, "TableName": "LGFeature"
 						}
 						, {
-							"ColumnName": "Right"
-							, "TableName": "LGRight"
+							"ColumnName": "Ability"
+							, "TableName": "LGAbility"
 						}
 					]
 				}

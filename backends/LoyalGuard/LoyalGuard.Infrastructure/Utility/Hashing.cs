@@ -1,3 +1,6 @@
+using System;
+using System.Text.RegularExpressions;
+
 namespace LoyalGuard.Infrastructure.Utility
 {
 	public class Hashing
@@ -15,6 +18,13 @@ namespace LoyalGuard.Infrastructure.Utility
     public static bool ValidatePassword(string password, string correctHash)
     {
         return BCrypt.Net.BCrypt.Verify(password, correctHash);
+    }
+
+    public static bool isHashed(string possiblyHashedString)
+    {
+      Regex rx = new Regex(@"\A\$2a?\$\d\d\$[./0-9A-Za-z] {53}", RegexOptions.Compiled);
+      MatchCollection matches = rx.Matches(possiblyHashedString);
+      return matches.Count > 0;
     }
   }
 }

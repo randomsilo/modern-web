@@ -25,7 +25,7 @@ namespace LoyalGuard.Domain.Model
 
 		// References
 		public int? FeatureIdRef { get; set; }
-		public int? RightIdRef { get; set; }
+		public int? AbilityIdRef { get; set; }
 
 
 		// Interface Implementations

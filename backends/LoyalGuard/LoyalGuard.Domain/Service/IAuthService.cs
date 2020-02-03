@@ -11,6 +11,6 @@ namespace LoyalGuard.Domain.Service
 {
 	public interface IAuthService 
 	{
-		BrashActionResult<AccountToken> Authenticate(AccountSignin model);
+		BrashActionResult<AccountAccess> Authenticate(AccountSignin model);
 	}
 }

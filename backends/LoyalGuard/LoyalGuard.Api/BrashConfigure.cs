@@ -53,10 +53,10 @@ namespace LoyalGuard.Api
 			containerBuilder.Register<LGFeatureRepository>((c) => { return new LGFeatureRepository( c.Resolve<IManageDatabase>(), c.Resolve<LGFeatureRepositorySql>(), c.Resolve<Serilog.ILogger>()); });
 			containerBuilder.Register<LGFeatureService>((c) => { return new LGFeatureService( c.Resolve<LGFeatureRepository>(), c.Resolve<Serilog.ILogger>()); });
 			
-			// Container Registar: LGRight
-			containerBuilder.Register<LGRightRepositorySql>((c) => { return new LGRightRepositorySql(); });
-			containerBuilder.Register<LGRightRepository>((c) => { return new LGRightRepository( c.Resolve<IManageDatabase>(), c.Resolve<LGRightRepositorySql>(), c.Resolve<Serilog.ILogger>()); });
-			containerBuilder.Register<LGRightService>((c) => { return new LGRightService( c.Resolve<LGRightRepository>(), c.Resolve<Serilog.ILogger>()); });
+			// Container Registar: LGAbility
+			containerBuilder.Register<LGAbilityRepositorySql>((c) => { return new LGAbilityRepositorySql(); });
+			containerBuilder.Register<LGAbilityRepository>((c) => { return new LGAbilityRepository( c.Resolve<IManageDatabase>(), c.Resolve<LGAbilityRepositorySql>(), c.Resolve<Serilog.ILogger>()); });
+			containerBuilder.Register<LGAbilityService>((c) => { return new LGAbilityService( c.Resolve<LGAbilityRepository>(), c.Resolve<Serilog.ILogger>()); });
 			
 			// Container Registar: LGAccount
 			containerBuilder.Register<LGAccountRepositorySql>((c) => { return new LGAccountRepositorySql(); });
@@ -72,12 +72,18 @@ namespace LoyalGuard.Api
 			containerBuilder.Register<LGTokenRepositorySql>((c) => { return new LGTokenRepositorySql(); });
 			containerBuilder.Register<LGTokenRepository>((c) => { return new LGTokenRepository( c.Resolve<IManageDatabase>(), c.Resolve<LGTokenRepositorySql>(), c.Resolve<Serilog.ILogger>()); });
 			containerBuilder.Register<LGTokenService>((c) => { return new LGTokenService( c.Resolve<LGTokenRepository>(), c.Resolve<Serilog.ILogger>()); });
-			
+
       // AuthService
-      containerBuilder.Register<AuthService>((c) => { return new AuthService( c.Resolve<LGAccountService>(), c.Resolve<LGTokenService>(), c.Resolve<Serilog.ILogger>()); });
+      containerBuilder.Register<AuthService>((c) => { return new AuthService( 
+        c.Resolve<LGAccountService>()
+        , c.Resolve<LGTokenService>()
+        , c.Resolve<LGPrivilegeService>()
+        , c.Resolve<LGFeatureService>()
+        , c.Resolve<LGAbilityService>()
+        , c.Resolve<LGRoleService>()
+        , c.Resolve<Serilog.ILogger>()); 
+      });
 			
-
-
 			// BasicAuth
 			containerBuilder.Register<IBrashApiAuthService>((c) => {
 				return new BrashApiAuthService().AddAuthAccount(

@@ -7,14 +7,14 @@ using Brash.Model;
 
 namespace LoyalGuard.Domain.Model
 {
-	public class LGRight : IAskId
+	public class LGAbility : IAskId
 	{
 
-		public LGRight()
+		public LGAbility()
 		{
 		}
 		// IdPattern
-		public int? LGRightId { get; set; }
+		public int? LGAbilityId { get; set; }
 
 		// Additional Patterns
 		public string ChoiceName { get; set; }
@@ -25,7 +25,7 @@ namespace LoyalGuard.Domain.Model
 		// Interface Implementations
 		public string GetIdPropertyName()
 		{
-			return "LGRightId";
+			return "LGAbilityId";
 		}
 
 	}

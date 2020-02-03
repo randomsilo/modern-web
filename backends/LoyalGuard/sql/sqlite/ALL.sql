@@ -31,23 +31,23 @@ INSERT INTO LGFeature (ChoiceName, OrderNo) VALUES ('Feature3', (SELECT IFNULL(M
 INSERT INTO LGFeature (ChoiceName, OrderNo) VALUES ('Feature4', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGFeature));
 
 ---
---- LoyalGuard.LGRight
+--- LoyalGuard.LGAbility
 ---
-CREATE TABLE LGRight (
-	LGRightId INTEGER PRIMARY KEY AUTOINCREMENT
+CREATE TABLE LGAbility (
+	LGAbilityId INTEGER PRIMARY KEY AUTOINCREMENT
 	, ChoiceName TEXT
 	, OrderNo REAL
 	, IsDisabled INTEGER
 );
 ---
 --- Choices
-INSERT INTO LGRight (ChoiceName, OrderNo) VALUES ('None', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGRight));
-INSERT INTO LGRight (ChoiceName, OrderNo) VALUES ('View', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGRight));
-INSERT INTO LGRight (ChoiceName, OrderNo) VALUES ('Edit', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGRight));
-INSERT INTO LGRight (ChoiceName, OrderNo) VALUES ('View, Run', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGRight));
-INSERT INTO LGRight (ChoiceName, OrderNo) VALUES ('Edit, Run', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGRight));
-INSERT INTO LGRight (ChoiceName, OrderNo) VALUES ('All', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGRight));
-INSERT INTO LGRight (ChoiceName, OrderNo) VALUES ('Other', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGRight));
+INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('None', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
+INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('View', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
+INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('Edit', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
+INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('Delete', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
+INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('Run', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
+INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('Import', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
+INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('Export', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
 
 ---
 --- LoyalGuard.LGAccount
@@ -60,8 +60,6 @@ CREATE TABLE LGAccount (
 	, UserName TEXT
 	, Email TEXT
 	, Password TEXT
-	, PasswordConfirmation TEXT
-	, PasswordHashed TEXT
 	, RoleIdRef INTEGER
 	, FOREIGN KEY (RoleIdRef) REFERENCES LGRole(LGRoleId) ON DELETE SET NULL
 );
@@ -75,10 +73,10 @@ CREATE TABLE LGPrivilege (
 	, Starts TIMESTAMP
 	, Ends TIMESTAMP
 	, FeatureIdRef INTEGER
-	, RightIdRef INTEGER
+	, AbilityIdRef INTEGER
 	, FOREIGN KEY (LGAccountId) REFERENCES LGAccount(LGAccountId) ON DELETE CASCADE
 	, FOREIGN KEY (FeatureIdRef) REFERENCES LGFeature(LGFeatureId) ON DELETE SET NULL
-	, FOREIGN KEY (RightIdRef) REFERENCES LGRight(LGRightId) ON DELETE SET NULL
+	, FOREIGN KEY (AbilityIdRef) REFERENCES LGAbility(LGAbilityId) ON DELETE SET NULL
 );
 ---
 ---
