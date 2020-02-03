@@ -92,6 +92,17 @@ namespace LoyalGuard.Infrastructure.Test.Sqlite.Service
 			Assert.NotNull(lGRoleService);
 			Assert.NotNull(lGTokenService);
 
+      // - authService
+      var authService = new AuthService( 
+        lGAccountService
+        , lGTokenService
+        , lGPrivilegeService
+        , lGFeatureService
+        , lGAbilityService
+        , lGRoleService
+        , logger 
+      );
+
       // - get all features
       var featureModels = lGFeatureService.FindWhere("").Models;
 
@@ -139,6 +150,21 @@ namespace LoyalGuard.Infrastructure.Test.Sqlite.Service
 			    Assert.True(priviledgeCreateResult.Model.LGPrivilegeId > 0);
         }
       }
+
+      // authenticate
+      var adminSignIn = new AccountSignin()
+      {
+        UserName = "System"
+        , Password = "System123!"
+      };
+      var adminAuthResult = authService.Authenticate(adminSignIn);
+      Assert.True(adminAuthResult.Status == BrashActionStatus.SUCCESS);
+      Assert.NotNull(adminAuthResult.Model);
+      Assert.NotNull(adminAuthResult.Model.Account);
+      Assert.NotNull(adminAuthResult.Model.Token);
+    
+
+
 			
 		}
 

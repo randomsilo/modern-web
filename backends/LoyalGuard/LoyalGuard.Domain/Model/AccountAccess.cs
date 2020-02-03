@@ -16,7 +16,7 @@ namespace LoyalGuard.Domain.Model
 		public LGAccount Account { get; set; }
 		public LGToken Token { get; set; }
 
-    public List<string> Roles { get; set; }
+    public string Role { get; set; }
 		public Dictionary<string,List<string>> Privileges { get; set; }
 		
 

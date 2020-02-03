@@ -64,6 +64,10 @@ namespace LoyalGuard.Infrastructure.Sqlite.Service
           authResult.Status = BrashActionStatus.SUCCESS;
           authResult.Message = "Authentication successful.";
           authResult.Model.Account = foundAccount;
+
+          // set role name
+
+          // transform priviledges into dictionary (string/list of strings)
           
           // create token
           LGToken token = new LGToken()
