@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import axios from './backend/vue-axios'
+import LoyalGuardApi from './backend/loyal-guard-api'
 
 Vue.config.productionTip = false;
 
@@ -42,6 +42,6 @@ Vue.use(TablePlugin)
 // Vue Application
 new Vue({
   router,
-  axios,
+  LoyalGuardApi,
   render: h => h(App)
 }).$mount('#app')

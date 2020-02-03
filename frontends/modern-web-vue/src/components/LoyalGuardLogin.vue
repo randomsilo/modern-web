@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     login() {
-      this.$http.post('/Auth'
+      this.LoyalGuardApi.post('/Auth'
         , { 
           userName: this.userName
           , password: this.password 
