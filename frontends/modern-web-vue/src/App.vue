@@ -16,7 +16,6 @@
                 <li class="nav-item">
                     <router-link class="nav-link" to="/login" v-if="hasAccount() == false">Login</router-link>
                 </li>
-                
             </ul>
         </div>
         <div>
@@ -51,6 +50,7 @@ export default {
   }
 
   , methods: {
+    
     hasAccount() {
       var found = false;
       if (this.account && this.account.userName && this.account.userName.length > 0) {

@@ -10,7 +10,7 @@
     }
   },
   "profiles": {
-    "Strawman.Api": {
+    "LoyalGuard.Api": {
       "commandName": "Project",
       "launchBrowser": false,
       "applicationUrl": "http://localhost:6101",

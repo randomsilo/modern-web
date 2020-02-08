@@ -136,7 +136,7 @@ dotnet run cs-api-sqlite --file /shop/randomsilo/modern-web/backends/LoyalGuard/
 --user API_LOYALGUARD \
 --pass API_TWO_IF_BY_SEA \
 --port 6100 \
---dev-site https://localhost:8080 \
+--dev-site http://localhost:8080 \
 --web-site https://modernwebvue.ctrlshiftesc.com
 
 ```
