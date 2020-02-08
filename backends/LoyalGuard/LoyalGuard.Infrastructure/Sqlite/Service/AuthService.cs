@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Brash.Infrastructure;
 using Serilog;
 using LoyalGuard.Domain.Model;
@@ -29,7 +31,7 @@ namespace LoyalGuard.Infrastructure.Sqlite.Service
 			Logger = logger;
       _lGAccountService = lGAccountService;
       _lGTokenService = lGTokenService;
-      _lGPrivilegeService = _lGPrivilegeService;
+      _lGPrivilegeService = lGPrivilegeService;
       _lGFeatureService = lGFeatureService;
       _lGAbilityService = lGAbilityService;
       _lGRoleService = lGRoleService;
@@ -66,8 +68,55 @@ namespace LoyalGuard.Infrastructure.Sqlite.Service
           authResult.Model.Account = foundAccount;
 
           // set role name
+          var fetchRoleResult =_lGRoleService.Fetch(new LGRole() {
+            LGRoleId = foundAccount.RoleIdRef
+          });
+
+          if (fetchRoleResult.Status == BrashActionStatus.SUCCESS)
+          {
+            authResult.Model.Role = fetchRoleResult.Model.ChoiceName;
+          }
+          else 
+          {
+            Logger.Error(fetchRoleResult.CaughtException, $"Failed getting the role.  Why? Check this: {fetchRoleResult.Message}");
+            authResult.Model.Role = "Unknown";
+          }
 
           // transform priviledges into dictionary (string/list of strings)
+          authResult.Model.Privileges = new Dictionary<string, List<string>>();
+          var getPrivledgesResult =_lGPrivilegeService.FindWhere($"WHERE LGAccountId = {foundAccount.LGAccountId}");
+          if (getPrivledgesResult.Status == BrashQueryStatus.SUCCESS)
+          {
+            var allFeatures = _lGFeatureService.FindWhere("WHERE 1 = 1").Models;
+            var allAbilities = _lGAbilityService.FindWhere("WHERE 1 = 1").Models;
+
+            foreach( var priviledge in getPrivledgesResult.Models)
+            {
+              // get feature
+              var feature = allFeatures.Where(f => f.LGFeatureId == priviledge.FeatureIdRef).FirstOrDefault();
+              List<string> featureAbilityList = new List<string>();
+
+              if (authResult.Model.Privileges.Keys.Contains(feature.ChoiceName))
+              {
+                featureAbilityList = authResult.Model.Privileges[feature.ChoiceName];
+              }
+              else
+              {
+                authResult.Model.Privileges.Add(feature.ChoiceName, featureAbilityList);
+              }
+
+              // get action
+              var ability = allAbilities.Where(a => a.LGAbilityId == priviledge.AbilityIdRef).FirstOrDefault();
+
+              // set values in response
+              featureAbilityList.Add(ability.ChoiceName);
+            }
+          }
+          else
+          {
+            Logger.Error(getPrivledgesResult.CaughtException, $"Failed getting user privledges.  Why? Check this: {getPrivledgesResult.Message}");
+            authResult.Model.Privileges.Add("ERROR", new List<string>() { "GETTING_PRIVLEDGES" });
+          }
           
           // create token
           LGToken token = new LGToken()

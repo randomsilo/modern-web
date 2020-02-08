@@ -34,7 +34,8 @@ export default {
         .catch(() => this.loginFailed())
     }
     , loginSuccessful (req) {
-
+      debugger;
+      
       if (req.data.token == null) {
         this.loginFailed();
         return
@@ -47,6 +48,7 @@ export default {
 
       localStorage.account = JSON.stringify(req.data.account);
       localStorage.token = JSON.stringify(req.data.token);
+      localStorage.privileges = JSON.stringify(req.data.privileges);
       this.error = false;
 
       this.$router.replace(this.$route.query.redirect || '/')
@@ -56,6 +58,7 @@ export default {
       this.error = 'Login failed!';
       delete localStorage.account;
       delete localStorage.token;
+      delete localStorage.privileges;
     }
 
   }

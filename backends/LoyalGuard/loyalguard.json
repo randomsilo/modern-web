@@ -31,8 +31,7 @@
 				"Choice"
 			]
 			, "Choices": [
-				"None"
-				, "View"
+			  "View"
         , "Edit"
         , "Delete"
         , "Run"

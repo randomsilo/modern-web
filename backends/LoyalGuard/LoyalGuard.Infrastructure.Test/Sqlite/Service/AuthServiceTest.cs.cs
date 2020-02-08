@@ -163,9 +163,7 @@ namespace LoyalGuard.Infrastructure.Test.Sqlite.Service
       Assert.NotNull(adminAuthResult.Model.Account);
       Assert.NotNull(adminAuthResult.Model.Token);
     
-
-
-			
+      Assert.Equal("Administrator", adminAuthResult.Model.Role);
 		}
 
 	}

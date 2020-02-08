@@ -13,7 +13,7 @@
     "Strawman.Api": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "https://localhost:6100",
+      "applicationUrl": "http://localhost:6101",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

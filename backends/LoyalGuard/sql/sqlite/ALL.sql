@@ -41,7 +41,6 @@ CREATE TABLE LGAbility (
 );
 ---
 --- Choices
-INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('None', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
 INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('View', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
 INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('Edit', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));
 INSERT INTO LGAbility (ChoiceName, OrderNo) VALUES ('Delete', (SELECT IFNULL(MAX(OrderNo),0)+1 FROM LGAbility));

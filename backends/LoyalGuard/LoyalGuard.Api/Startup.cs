@@ -42,20 +42,20 @@ namespace LoyalGuard.Api
                 app.UseDeveloperExceptionPage();
             }
 
-			app.UseCors(builder =>
+			      app.UseCors(builder =>
             {
                 builder
-                    .WithOrigins("https://localhost:8080", "https://modernwebvue.ctrlshiftesc.com")
+                    .WithOrigins("http://localhost:8080", "https://localhost:8080", "https://modernwebvue.ctrlshiftesc.com")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials(); 
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
-			app.UseAuthentication();
+			      app.UseAuthentication();
 
             app.UseAuthorization();
 
