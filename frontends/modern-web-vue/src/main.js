@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import LoyalGuardApi from './backend/loyal-guard-api'
+import LoyalGuardApi from './backend/loyalguard-api'
+import TodoListApi from './backend/todolist-api'
 
 Vue.config.productionTip = false;
 
@@ -43,5 +44,6 @@ Vue.use(TablePlugin)
 new Vue({
   router,
   LoyalGuardApi,
+  TodoListApi,
   render: h => h(App)
 }).$mount('#app')

@@ -14,6 +14,9 @@
                     <router-link class="nav-link" to="/table" v-if="hasPermission('Feature2','View')">Table</router-link>
                 </li>
                 <li class="nav-item">
+                    <router-link class="nav-link" to="/todolist" v-if="hasPermission('Feature3','View')">Todo List</router-link>
+                </li>
+                <li class="nav-item">
                     <router-link class="nav-link" to="/login" v-if="hasAccount() == false">Login</router-link>
                 </li>
             </ul>

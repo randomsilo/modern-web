@@ -165,3 +165,77 @@ dotnet run
 #ctrl c to quit
 
 ```
+
+### Create TodoList
+
+The commands for creating the TodoList domain api are below.
+If you have cloned this application then the pieces should already be there.
+The commands below will only be useful if you are modifying LoyalGuard's functionality.
+The url, port, and other configuration entries can be changed in the BrashConfiguration.cs.
+
+Open two terminals:  
+One for brashcli commands starting in the brashcli directory outside of the application.
+Another terminal for project based commands.
+
+* Change the paths to match your own directory structure.
+* Change the url to match your dns/certbot entries.
+
+```bash
+mkdir -p /shop/randomsilo/modern-web/backends/TodoList
+
+# from brashcli directory
+dotnet run project-init -n TodoList -d /shop/randomsilo/modern-web/backends/TodoList
+dotnet run data-init -n TodoList -d /shop/randomsilo/modern-web/backends/TodoList
+
+# make c# projects
+cd /shop/randomsilo/modern-web/backends/TodoList
+. ./init.sh
+
+# copy structure.json to todolist.json
+# make appropriate changes 
+
+# from brashcli directory
+dotnet run sqlite-gen --file /shop/randomsilo/modern-web/backends/TodoList/todolist.json
+
+# combine sql scripts
+cd /shop/randomsilo/modern-web/backends/TodoList/sql/sqlite
+. ./combine.sh
+
+# from brashcli directory
+dotnet run cs-domain --file /shop/randomsilo/modern-web/backends/TodoList/todolist.json
+dotnet run cs-repo-sqlite --file /shop/randomsilo/modern-web/backends/TodoList/todolist.json
+dotnet run cs-xtest-sqlite --file /shop/randomsilo/modern-web/backends/TodoList/todolist.json
+
+dotnet run cs-api-sqlite --file /shop/randomsilo/modern-web/backends/TodoList/todolist.json \
+--user API_TODOLIST \
+--pass API_THINGS_TO_DO \
+--port 6200 \
+--dev-site http://localhost:8080 \
+--web-site https://modernwebvue.ctrlshiftesc.com
+
+```
+
+### Build TodoList
+
+```bash
+cd /shop/randomsilo/modern-web/backends/TodoList/
+cd TodoList.Domain
+dotnet build
+cd ..
+
+cd TodoList.Infrastructure
+dotnet build
+cd ..
+
+cd TodoList.Infrastructure.Test
+dotnet build
+dotnet test
+cd ..
+
+cd TodoList.Api
+dotnet build
+dotnet run
+
+#ctrl c to quit
+
+```

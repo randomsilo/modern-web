@@ -1,0 +1,8 @@
+/shop/randomsilo/modern-web/backends/TodoList/TodoList.Domain/bin/Debug/netstandard2.0/TodoList.Domain.deps.json
+/shop/randomsilo/modern-web/backends/TodoList/TodoList.Domain/bin/Debug/netstandard2.0/TodoList.Domain.dll
+/shop/randomsilo/modern-web/backends/TodoList/TodoList.Domain/bin/Debug/netstandard2.0/TodoList.Domain.pdb
+/shop/randomsilo/modern-web/backends/TodoList/TodoList.Domain/obj/Debug/netstandard2.0/TodoList.Domain.csprojAssemblyReference.cache
+/shop/randomsilo/modern-web/backends/TodoList/TodoList.Domain/obj/Debug/netstandard2.0/TodoList.Domain.AssemblyInfoInputs.cache
+/shop/randomsilo/modern-web/backends/TodoList/TodoList.Domain/obj/Debug/netstandard2.0/TodoList.Domain.AssemblyInfo.cs
+/shop/randomsilo/modern-web/backends/TodoList/TodoList.Domain/obj/Debug/netstandard2.0/TodoList.Domain.dll
+/shop/randomsilo/modern-web/backends/TodoList/TodoList.Domain/obj/Debug/netstandard2.0/TodoList.Domain.pdb

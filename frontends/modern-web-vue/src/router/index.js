@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import LoyalGuardLogin from '@/components/LoyalGuardLogin'
+import TodoList from '@/components/TodoList'
 
 import Landing from '../components/Landing';
 import Simple from '../components/Simple';
@@ -29,6 +30,11 @@ export default new Router({
         path: '/table',
         name: 'Table',
         component: Table
-    }
+    },
+    {
+      path: '/todolist',
+      name: 'TodoList',
+      component: TodoList
+  }
   ]
 })

@@ -1,0 +1,47 @@
+{ 
+    "Domain": "TodoList"
+	, "Structure": [
+		{
+			"Name": "TodoStatus"
+			, "AdditionalPatterns": [
+				"Choice"
+			]
+			, "Choices": [
+				"New"
+				, "In Progress"
+				, "Done"
+			]
+		}
+		, {
+			"Name": "TodoEntry"
+			, "Fields": [
+				  { "Name": "Summary", "Type": "S" }
+				, { "Name": "Details", "Type": "S" }
+				, { "Name": "DueDate", "Type": "D" }
+			]
+			, "References": [
+				{
+					"ColumnName": "EntryStatus"
+					, "TableName": "TodoStatus"
+				}
+			]
+			, "Extensions": [
+				{
+					"Name": "TodoNotes"
+					, "Fields": [
+						{ "Name": "Note", "Type": "S" }
+					]
+				}
+			]
+			, "Children": [
+				{
+					"Name": "ToolsRequired"
+					, "Fields": [
+						  { "Name": "ToolName", "Type": "S" }
+						  , { "Name": "ToolWeight", "Type": "N" }
+					]
+				}
+			]		
+		}
+	]
+}
