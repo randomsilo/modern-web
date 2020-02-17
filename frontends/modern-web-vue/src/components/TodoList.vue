@@ -1,23 +1,44 @@
 <template>
-  <div class="overflow-auto">
-    <h2>{{ tableName }} <small>({{ rows }}) rows</small></h2>
-    <button class="btn btn-lg btn-primary btn-block" @click="getListing()">Refresh</button>
+  <b-container>
+    <b-row class="justify-content-md-center">
+      <b-col cols="10">
+        <h2>{{ tableName }} </h2>
+      </b-col>
+      <b-col cols="2">
+        <b-button-group>
+          <b-button
+            class="btn btn-secondary"
+            size="sm">
+            Rows {{ rows }}
+          </b-button>
+          <b-button 
+            class="btn btn-success"
+            size="sm"
+            @click="getListing()">
+            <b-icon-arrow-repeat></b-icon-arrow-repeat> 
+          </b-button>
+        </b-button-group>
+      </b-col>
+    </b-row>
+    <b-row class="justify-content-md-center">
     
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="listing"
-    ></b-pagination>
+      <b-table
+        id="listing"
+        :items="items"
+        :fields="fields"
+        :per-page="perPage"
+        :current-page="currentPage"
+        small
+      ></b-table>
 
-    <b-table
-      id="listing"
-      :items="items"
-      :per-page="perPage"
-      :current-page="currentPage"
-      small
-    ></b-table>
-  </div>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="listing"
+      ></b-pagination>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -32,8 +53,13 @@ export default {
 
     return {
       tableName: 'Todo List',
-      perPage: 5,
+      perPage: 20,
       currentPage: 1,
+      fields: [
+        { key: 'todoEntryId', label: 'ID' },
+        { key: 'summary', label: 'Summary' },
+        { key: 'details', label: 'Details' }
+      ],
       items: [
       ]
     }
