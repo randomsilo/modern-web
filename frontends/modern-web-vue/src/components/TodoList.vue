@@ -221,6 +221,11 @@ export default {
 
     , toggleTableVisible() {
       this.tableVisible = !this.tableVisible;
+      if (this.tableVisible) {
+        this.title = "Todo Listing";
+      } else {
+        this.title = "Todo: Add New";
+      }
     }
 
     , showTable() {
