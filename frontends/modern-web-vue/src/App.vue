@@ -32,7 +32,7 @@
     </nav>
     
 
-    <div class="row flex-fill d-flex justify-content-start">
+    <div id="main-content" class="row flex-fill d-flex justify-content-start">
       <router-view></router-view>
     </div>
     
@@ -131,6 +131,10 @@ export default {
 <style lang="css">
   html, body {
     height: 100%;
+  }
+
+  div#main-content {
+    background-color: whitesmoke;
   }
 
   .flex-fill {

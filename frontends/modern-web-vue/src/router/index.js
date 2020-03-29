@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import LoyalGuardLogin from '@/components/LoyalGuardLogin'
-import TodoList from '@/components/TodoList'
+import LoyalGuardLogin from '@/components/LoyalGuard/Login'
+import TodoList from '@/components/Todo/List'
 
 import Landing from '../components/Landing';
 import Simple from '../components/Simple';

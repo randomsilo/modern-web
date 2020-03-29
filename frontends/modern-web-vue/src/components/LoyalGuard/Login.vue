@@ -64,7 +64,6 @@ export default {
         .catch(() => this.loginFailed())
     }
     , loginSuccessful (req) {
-      debugger;
       
       if (req.data.token == null) {
         this.loginFailed();
