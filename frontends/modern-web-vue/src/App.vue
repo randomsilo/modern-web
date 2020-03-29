@@ -1,6 +1,7 @@
 <template>
-  <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div id="app" class="container-fluid d-flex h-100 flex-column">
+    
+    <nav class="row navbar navbar-expand-md navbar-dark bg-dark">
         <router-link class="navbar-brand" to="/">Modern Web</router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -23,14 +24,35 @@
         </div>
         <div>
           <button 
-            class="btn btn-outline-danger mr-auto" 
+            class="btn btn-outline-danger" 
             @click="logout()" 
             v-if="hasAccount()"><small>{{ account.userName }}</small> Logout
           </button>
         </div>
     </nav>
+    
 
-    <router-view></router-view>
+    <div class="row flex-fill d-flex justify-content-start">
+      <router-view></router-view>
+    </div>
+    
+    <div class="row">
+      <div class="page-footer fixed-bottom border-top bg-dark">
+        <div class="row">
+          <div class="col-3">
+          </div>
+          <div class="col-3">
+            <small class="d-block text-muted">Daniel A. Dawson © 2020</small>
+          </div>
+          <div class="col-3">
+            <a href="#"><small class="d-block text-muted">Terms of Service</small></a>
+          </div>
+          <div class="col-3">
+            <a href="#"><small class="d-block text-muted">Privacy Policy</small></a>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -105,3 +127,13 @@ export default {
   }
 }
 </script>
+
+<style lang="css">
+  html, body {
+    height: 100%;
+  }
+
+  .flex-fill {
+    flex:1;
+  }
+</style>

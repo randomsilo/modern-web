@@ -1,5 +1,10 @@
 <template>
-  <b-container>
+  <div class="container-fluid h-100">
+
+    <div class="row">
+      <br />
+      <br />
+    </div>
 
     <!-- alert box -->
     <b-row class="justify-content-md-center">
@@ -26,114 +31,129 @@
 
     <!-- title bar -->
     <b-row class="justify-content-md-center">
-      <b-col cols="9">
-        <h2>{{ title }} </h2>
-      </b-col>
+      <div class="card col-12">
+        <div class="card-header">Manage Todos</div>
+        <div class="card-body">
 
-      <!-- table specific controls -->
-      <b-col cols="2" class="text-right">
-        <b-button-group>
-          <b-button
-            v-if="showTable()"
-            class="btn btn-info"
-            size="sm">
-            Rows {{ rows }}
-          </b-button>
-          <b-button
-            v-if="showTable()"
-            class="btn btn-warning"
-            size="sm"
-            @click="getListing()">
-            <b-icon-arrow-repeat></b-icon-arrow-repeat> 
-          </b-button>
-        </b-button-group>
-      </b-col>
+          <b-row>
+            <!-- table specific controls -->
+            <b-col class="col-6">
+              <b-button-group>
+                <b-button
+                  v-if="showTable()"
+                  class="btn btn-info"
+                  size="sm">
+                  Rows {{ rows }}
+                </b-button>
+                <b-button
+                  v-if="showTable()"
+                  class="btn btn-warning"
+                  size="sm"
+                  @click="getListing()"
+                  alt="Get Listing">
+                  <b-icon-arrow-repeat></b-icon-arrow-repeat> 
+                </b-button>
+              </b-button-group>
+            </b-col>
 
-      <!-- view toggle buttons -->
-      <b-col cols="1" class="text-right">
-        <b-button-group>
-          <b-button 
-            v-if="showTable()"
-            class="btn btn-success"
-            size="sm"
-            @click="toggleTableVisible()">
-            <b-icon-plus></b-icon-plus> 
-          </b-button>
-          <b-button
-            v-if="showForm()" 
-            class="btn btn-success"
-            size="sm"
-            @click="toggleTableVisible()">
-            <b-icon-table></b-icon-table> 
-          </b-button>
-        </b-button-group>
-      </b-col>
+            <!-- view toggle buttons -->
+            <b-col class="col text-right">
+              <b-button-group>
+                <b-button 
+                  v-if="showTable()"
+                  class="btn btn-success"
+                  size="sm"
+                  @click="toggleTableVisible()"
+                  title="Show Add Form">
+                  <b-icon-plus></b-icon-plus> 
+                </b-button>
+                <b-button
+                  v-if="showForm()" 
+                  class="btn btn-success"
+                  size="sm"
+                  @click="toggleTableVisible()"
+                  title="Show Listing">
+                  <b-icon-table></b-icon-table> 
+                </b-button>
+              </b-button-group>
+            </b-col>
+          </b-row>
+
+        </div>
+      </div>
     </b-row>
 
+    <div class="row">
+      <br />
+      <br />
+    </div>
+
     <!-- table listing -->
-    <b-row class="justify-content-md-center" v-if="showTable()">
+    <b-row class="border border-info" v-if="showTable()">
       <b-table
         id="listing"
         :items="items"
         :fields="fields"
         :per-page="perPage"
         :current-page="currentPage"
-        small
-      ></b-table>
+        small></b-table>
 
       <b-pagination
         v-model="currentPage"
         :total-rows="rows"
         :per-page="perPage"
-        aria-controls="listing"
-      ></b-pagination>
+        aria-controls="listing"></b-pagination>
     </b-row>
 
     <!-- form -->
     <b-row v-if="showForm()">
-      <b-form @submit="onSubmit" @reset="onReset" v-if="formVisible">
-        <b-form-group
-          id="input-group-1"
-          label="Email address:"
-          label-for="input-1"
-          description="We'll never share your email with anyone else.">
-          <b-form-input
-            id="input-1"
-            v-model="form.email"
-            type="email"
-            required
-            placeholder="Enter email"
-          ></b-form-input>
-        </b-form-group>
+      <div class="card col-12">
+        <div class="card-header">Todo Entry</div>
+        <div class="card-body">
+        
+          <b-form @submit="onSubmit" @reset="onReset" v-if="formVisible">
+            <b-form-group
+              id="input-group-1"
+              label="Email Address"
+              label-for="input-1">
+              <b-form-input
+                id="input-1"
+                v-model="form.email"
+                type="email"
+                required></b-form-input>
+            </b-form-group>
 
-        <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-          <b-form-input
-            id="input-2"
-            v-model="form.name"
-            required
-            placeholder="Enter name"
-          ></b-form-input>
-        </b-form-group>
+            <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+              <b-form-input
+                id="input-2"
+                v-model="form.name"
+                required
+                placeholder="Enter name"
+              ></b-form-input>
+            </b-form-group>
 
-        <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-          <b-form-select
-            id="input-3"
-            v-model="form.food"
-            :options="foods"
-            required
-          ></b-form-select>
-        </b-form-group>
+            <b-form-group id="input-group-3" label="Food:" label-for="input-3">
+              <b-form-select
+                id="input-3"
+                v-model="form.food"
+                :options="foods"
+                required
+              ></b-form-select>
+            </b-form-group>
 
-        <b-form-group id="input-group-4">
-          <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-            <b-form-checkbox value="me">Check me out</b-form-checkbox>
-            <b-form-checkbox value="that">Check that out</b-form-checkbox>
-          </b-form-checkbox-group>
-        </b-form-group>
+            <b-form-group id="input-group-4">
+              <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
+                <b-form-checkbox value="me">Check me out</b-form-checkbox>
+                <b-form-checkbox value="that">Check that out</b-form-checkbox>
+              </b-form-checkbox-group>
+            </b-form-group>
 
-        <b-button type="submit" variant="primary">Submit</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
-      </b-form>
+            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="reset" variant="danger">Reset</b-button>
+          </b-form>
+
+        </div>
+      </div>
     </b-row>
 
     <!-- form debug -->
@@ -142,7 +162,7 @@
         <pre class="m-0">{{ form }}</pre>
       </b-card>
     </b-row>
-  </b-container>
+  </div>
 </template>
 
 <script>

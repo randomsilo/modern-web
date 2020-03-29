@@ -1,14 +1,44 @@
 <template>
-  <div class="login-wrapper border border-light">
-    <form class="form-signin" @submit.prevent="login">
-      <h2 class="form-signin-heading">Please sign in</h2>
-      <div class="alert alert-danger" v-if="error">{{ error }}</div>
-      <label for="userName" class="sr-only">User Name</label>
-      <input v-model="userName" type="text" id="userName" class="form-control" placeholder="User Name" autocomplete="off" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" autocomplete="off" required>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+  <div id="loyalGuardLoginPage" class="container-fluid h-100">
+
+    <div class="row">
+      <br />
+      <br />
+      <br />
+    </div>
+
+    <div class="row">
+      <div class="col">
+        
+      </div>
+
+      <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+        <div class="card bg-light">
+          <div class="card-header">Please Sign In</div>
+          <div class="card-body">
+            <form class="form-signin col-sm-11" @submit.prevent="login">
+              <div class="alert alert-danger" v-if="error">{{ error }}</div>
+
+              <div class="form-group row">
+                <label for="userName" class="col">User Name</label>
+                <input v-model="userName" type="text" id="userName" class="form-control form-control-sm col" autocomplete="off" required autofocus>
+              </div>
+
+              <div class="form-group row">
+                <label for="inputPassword" class="col">Password</label>
+                <input v-model="password" type="password" id="inputPassword" class="form-control form-control-sm col" autocomplete="off" required>
+              </div>
+
+              <div class="form-group row">
+                <button class="btn btn-lg btn-primary ml-auto" type="submit">Sign in</button>
+              </div>
+            </form>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </template>
 
@@ -66,47 +96,16 @@ export default {
 </script>
 
 <style lang="css">
-body {
-  background: #605B56;
-}
+  div#loyalGuardLoginPage {
+    background: url(/images/miami_skyline.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
 
-.login-wrapper {
-  background: #fff;
-  width: 70%;
-  margin: 12% auto;
-}
-
-.form-signin {
-  max-width: 330px;
-  padding: 10% 15px;
-  margin: 0 auto;
-}
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
-}
-.form-signin .checkbox {
-  font-weight: normal;
-}
-.form-signin .form-control {
-  position: relative;
-  height: auto;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="userName"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
+  div#login-wrapper {
+    padding: 10px;
+  }
+  
 </style>
