@@ -9,7 +9,6 @@
     <b-row class="justify-content-md-center">
       <b-alert
         :show="alertDismissCountDown"
-        :variant="{ alertCssClass }" 
         dismissible
         @dismissed="alertDismissCountDown=0"
         @dismiss-count-down="alertCountDownChanged">
@@ -46,6 +45,10 @@
             
           <!-- table listing -->
           <div class="row" v-if="showTable()">
+            <div class="col-12">
+              <button class="btn btn-primary btn-sm float-right" @click="getListing()">Refresh</button>
+            </div>
+
             <b-table
               id="listing"
               :items="items"
@@ -59,6 +62,7 @@
               :total-rows="rows"
               :per-page="perPage"
               aria-controls="listing"></b-pagination>
+
           </div>
 
           <!-- form -->
@@ -80,23 +84,13 @@
                 <input v-model="form.details" type="text" id="details" class="form-control form-control-sm col" autocomplete="off">
               </div>
 
-              <!--
-              <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-                <b-form-select
-                  id="input-3"
-                  v-model="form.food"
-                  :options="foods"
-                  required
-                ></b-form-select>
-              </b-form-group>
-              -->
-              
               <div class="form-group row">
                 <div class="col-12">
                   <button type="reset" class="btn btn-danger btn-sm float-right" @click="onReset">Clear</button>
                   <button type="submit" class="btn btn-primary btn-sm float-right">Save</button>
                 </div>
               </div>
+
             </form>
           </div>
 
@@ -233,8 +227,37 @@ export default {
     }
 
     , onSave(evt) {
-      evt.preventDefault()
-      alert(JSON.stringify(this.form))
+      debugger;
+
+      evt.preventDefault();
+
+      if (this.form.todoEntryId == '') {
+        // add
+        this.TodoListApi.post('/TodoEntry', 
+        {
+          "todoEntryId": null,
+          "summary": this.form.summary,
+          "details": this.form.details,
+          "dueDate": null,
+          "entryStatusIdRef": null
+        })
+          .then(request => this.onSaveSuccess(request))
+          .catch(() => this.onSaveFail());
+      }
+      else {
+        // edit
+
+      }
+    }
+
+    , onSaveSuccess(req) {
+      debugger;
+      this.setAlert("Added!", "success");
+    }
+
+    , onSaveFail() {
+      debugger;
+      this.setAlert("An error has occurred.", "danger");
     }
     
     , onReset(evt) {

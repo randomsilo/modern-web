@@ -60,18 +60,18 @@ export default {
           userName: this.userName
           , password: this.password 
         })
-        .then(request => this.loginSuccessful(request))
-        .catch(() => this.loginFailed())
+        .then(request => this.loginSuccess(request))
+        .catch(() => this.loginFail())
     }
-    , loginSuccessful (req) {
+    , loginSuccess (req) {
       
       if (req.data.token == null) {
-        this.loginFailed();
+        this.loginFail();
         return
       }
 
       if (req.data.token.expires < new Date()) {
-        this.loginFailed();
+        this.loginFail();
         return
       }
 
@@ -83,7 +83,7 @@ export default {
       this.$router.replace(this.$route.query.redirect || '/')
     }
 
-    , loginFailed() {
+    , loginFail() {
       this.error = 'Login failed!';
       delete localStorage.account;
       delete localStorage.token;
