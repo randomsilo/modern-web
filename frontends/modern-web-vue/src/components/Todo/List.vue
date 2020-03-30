@@ -33,10 +33,10 @@
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-              <a class="nav-link" href="#" :class="showTable() ? 'active' : ''" @click="toggleTableVisible()">Listing</a>
+              <a class="nav-link" href="#" :class="isTableVisible() ? 'active' : ''" @click="showTable()">Listing</a>
             </li>
             <li class="nav-item" >
-              <a class="nav-link" href="#" :class="showForm() ? 'active' : ''" @click="toggleTableVisible()">Form</a>
+              <a class="nav-link" href="#" :class="isFormVisible() ? 'active' : ''" @click="showForm()">Form</a>
             </li>
           </ul>
         </div>
@@ -44,29 +44,40 @@
         <div class="card-body">
             
           <!-- table listing -->
-          <div class="row" v-if="showTable()">
-            <div class="col-12">
-              <button class="btn btn-primary btn-sm float-right" @click="getListing()">Refresh</button>
-            </div>
-
-            <b-table
-              id="listing"
-              :items="items"
-              :fields="fields"
-              :per-page="perPage"
-              :current-page="currentPage"
-              small></b-table>
-
-            <b-pagination
-              v-model="currentPage"
-              :total-rows="rows"
-              :per-page="perPage"
-              aria-controls="listing"></b-pagination>
-
+          <div class="row" v-if="isTableVisible()">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col" colspan="4">
+                    <button class="btn btn-success btn-sm float-right" @click="showForm()"><b-icon icon="plus"></b-icon></button>
+                    <button class="btn btn-primary btn-sm float-right" @click="getListing()"><b-icon icon="arrow-repeat"></b-icon></button>
+                  </th>
+                </tr>
+              </thead>
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Action</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Summary</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for='(item, index) in this.items' :key='item.todoEntryId'>
+                  <th scope="row">
+                    <button class="btn btn-danger btn-sm float-right" @click="onRemove(index)"><b-icon icon="trash"></b-icon></button>
+                    <button class="btn btn-secondary btn-sm float-right" @click="onEdit(index)"><b-icon icon="pencil"></b-icon></button>
+                  </th>
+                  <td>{{ item.todoEntryId }}</td>
+                  <td>{{ item.summary }}</td>
+                  <td>{{ item.details }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <!-- form -->
-          <div class="row" v-if="showForm()">
+          <div class="row" v-if="isFormVisible()">
             <form class="col-12" @submit.prevent="onSave">
 
               <div class="form-group row">
@@ -111,7 +122,7 @@
     
 
     <!-- form debug -->
-    <b-row v-if="showForm()">
+    <b-row v-if="isFormVisible()">
       <b-card class="mt-3" header="Form Data Result">
         <pre class="m-0">{{ form }}</pre>
       </b-card>
@@ -176,10 +187,18 @@ export default {
     }
 
     , showTable() {
-      return this.tableVisible;
+      this.tableVisible = true;
     }
 
     , showForm() {
+      this.tableVisible = false;
+    }
+
+    , isTableVisible() {
+      return this.tableVisible;
+    }
+
+    , isFormVisible() {
       return !this.tableVisible;
     }
 
@@ -274,6 +293,14 @@ export default {
         this.formVisible = true;
       });
 
+    }
+
+    , onEdit(idx) {
+
+    }
+
+    , onRemove(idx) {
+      
     }
     
 
