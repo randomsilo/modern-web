@@ -222,6 +222,12 @@ export default {
       this.alertDismissCountDown = dismissCountDown;
     }
 
+    , onClearForm() {
+      this.form.todoEntryId = '';
+      this.form.summary = '';
+      this.form.details = '';
+    }
+
     , onGetListing(showStatusAlert) {
       this.tableLoading = true;
 
@@ -299,9 +305,7 @@ export default {
       evt.preventDefault();
 
       // Reset our form values
-      this.form.todoEntryId = '';
-      this.form.summary = '';
-      this.form.details = '';
+      this.onClearForm();
 
       // Trick to reset/clear native browser form validation state
       this.formVisible = false;
@@ -339,6 +343,7 @@ export default {
     }
 
     , onRemoveSuccess(req) {
+      this.onClearForm();
       this.onGetListing(false);
       this.setAlert("Removed!", "success");
     }
