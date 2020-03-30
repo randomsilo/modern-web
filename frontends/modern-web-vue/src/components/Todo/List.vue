@@ -49,8 +49,8 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col" colspan="4">
-                    <button class="btn btn-success btn-sm float-right" @click="showForm()"><b-icon icon="plus"></b-icon></button>
-                    <button class="btn btn-primary btn-sm float-right" @click="getListing()"><b-icon icon="arrow-repeat"></b-icon></button>
+                    <button class="btn btn-success btn-sm float-right" title="add new" @click="showForm()"><b-icon icon="plus"></b-icon></button>
+                    <button class="btn btn-primary btn-sm float-right" title="refresh listing" @click="onGetListing(true)"><b-icon icon="arrow-repeat"></b-icon></button>
                   </th>
                 </tr>
               </thead>
@@ -65,8 +65,8 @@
               <tbody>
                 <tr v-for='(item, index) in this.items' :key='item.todoEntryId'>
                   <th scope="row">
-                    <button class="btn btn-danger btn-sm float-right" @click="onRemove(index)"><b-icon icon="trash"></b-icon></button>
-                    <button class="btn btn-secondary btn-sm float-right" @click="onEdit(index)"><b-icon icon="pencil"></b-icon></button>
+                    <button class="btn btn-danger btn-sm float-right" title="remove" @click="onRemove(index)"><b-icon icon="trash"></b-icon></button>
+                    <button class="btn btn-secondary btn-sm float-right" title="edit" @click="onEdit(index)"><b-icon icon="pencil"></b-icon></button>
                   </th>
                   <td>{{ item.todoEntryId }}</td>
                   <td>{{ item.summary }}</td>
@@ -97,7 +97,7 @@
 
               <div class="form-group row">
                 <div class="col-12">
-                  <button type="reset" class="btn btn-danger btn-sm float-right" @click="onReset">Clear</button>
+                  <button type="reset" class="btn btn-warning btn-sm float-right" title="clear" @click="onReset"><b-icon icon="x-square"></b-icon></button>
                   <button type="submit" class="btn btn-primary btn-sm float-right">Save</button>
                 </div>
               </div>
@@ -135,12 +135,13 @@
 export default {
   name: 'TodoList'
   , mounted() {
-    this.getListing();
+    this.onGetListing(true);
   }
 
   , data() {
 
     return {
+      tableRefreshNeeded: false,
       tableVisible: true,
       tableLoading: false,
       alert: false,
@@ -174,20 +175,16 @@ export default {
   }
 
   , methods: {
-    getListing() {
-      this.tableLoading = true;
-
-      this.TodoListApi.get('/TodoEntry')
-        .then(request => this.handleListingResponse(request))
-        .catch(() => this.handleListingError())
-    }
-
-    , toggleTableVisible() {
+    toggleTableVisible() {
       this.tableVisible = !this.tableVisible;
     }
 
     , showTable() {
       this.tableVisible = true;
+
+      if (this.tableRefreshNeeded) {
+        this.onGetListing(false);
+      }
     }
 
     , showForm() {
@@ -225,29 +222,40 @@ export default {
       this.alertDismissCountDown = dismissCountDown;
     }
 
-    , handleListingResponse (request) {
+    , onGetListing(showStatusAlert) {
+      this.tableLoading = true;
+
+      this.TodoListApi.get('/TodoEntry')
+        .then(request => this.onGetListingSuccess(request, showStatusAlert))
+        .catch(() => this.onGetListingFail())
+    }
+
+    , onGetListingSuccess (request, showStatusAlert) {
       this.items = request.data;
 
       if (this.items.length == 0) {
-        this.setAlert("No data found.", "warning");
+        if (showStatusAlert) {
+          this.setAlert("No data found.", "warning");
+        }
         this.tableVisible = false;
       }
       else {
-        this.setAlert("Loaded " + this.rows + " records", "secondary");
+        if (showStatusAlert) {
+          this.setAlert("Loaded " + this.rows + " records", "secondary");
+        }
         this.tableVisible = true;
       }
 
       this.tableLoading = false;
+      this.tableRefreshNeeded = false;
     }
 
-    , handleListingError() {
+    , onGetListingFail() {
       this.tableLoading = false;
       this.setAlert("An error has occurred.", "danger");
     }
 
     , onSave(evt) {
-      debugger;
-
       evt.preventDefault();
 
       if (this.form.todoEntryId == '') {
@@ -265,17 +273,25 @@ export default {
       }
       else {
         // edit
-
+        this.TodoListApi.put('/TodoEntry/'+this.form.todoEntryId, 
+        {
+          "todoEntryId": this.form.todoEntryId,
+          "summary": this.form.summary,
+          "details": this.form.details,
+          "dueDate": null,
+          "entryStatusIdRef": null
+        })
+          .then(request => this.onSaveSuccess(request))
+          .catch(() => this.onSaveFail());
       }
     }
 
     , onSaveSuccess(req) {
-      debugger;
-      this.setAlert("Added!", "success");
+      this.setAlert("Saved!", "success");
+      this.tableRefreshNeeded = true;
     }
 
     , onSaveFail() {
-      debugger;
       this.setAlert("An error has occurred.", "danger");
     }
     
@@ -296,14 +312,41 @@ export default {
     }
 
     , onEdit(idx) {
+      var item = this.items[idx];
+      if (item) {
+        // Set form values
+        this.form.todoEntryId = item.todoEntryId;
+        this.form.summary = item.summary;
+        this.form.details = item.details;
 
+        this.showForm();
+      }
+      else {
+        this.setAlert("An error has occurred.", "danger");
+      }
     }
 
     , onRemove(idx) {
-      
+      var item = this.items[idx];
+      if (item) {
+        this.TodoListApi.delete('/TodoEntry/'+item.todoEntryId)
+          .then(request => this.onRemoveSuccess(request))
+          .catch(() => this.onRemoveFail());
+      }
+      else {
+        this.setAlert("An error has occurred.", "danger");
+      }
+    }
+
+    , onRemoveSuccess(req) {
+      this.onGetListing(false);
+      this.setAlert("Removed!", "success");
+    }
+
+    , onRemoveFail() {
+      this.setAlert("An error has occurred.", "danger");
     }
     
-
   }
 }
 </script>
