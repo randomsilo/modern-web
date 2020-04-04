@@ -49,7 +49,7 @@
               <thead class="thead-light">
                 <tr>
                   <th scope="col" colspan="4">
-                    <button class="btn btn-success btn-sm float-right" title="add new" @click="showForm()"><b-icon icon="plus"></b-icon></button>
+                    <button class="btn btn-success btn-sm float-right" title="add new" @click="addForm()"><b-icon icon="plus"></b-icon></button>
                     <button class="btn btn-primary btn-sm float-right" title="refresh listing" @click="onGetListing(true)"><b-icon icon="arrow-repeat"></b-icon></button>
                   </th>
                 </tr>
@@ -60,6 +60,8 @@
                   <th scope="col">ID</th>
                   <th scope="col">Summary</th>
                   <th scope="col">Details</th>
+                  <th scope="col">Due Date</th>
+                  <th scope="col">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -71,6 +73,8 @@
                   <td>{{ item.todoEntryId }}</td>
                   <td>{{ item.summary }}</td>
                   <td>{{ item.details }}</td>
+                  <td>{{ item.dueDate }}</td>
+                  <td>{{ translateEntryStatusId(item.entryStatusIdRef) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -93,6 +97,18 @@
               <div class="form-group row">
                 <label for="details" class="col-3">Details</label>
                 <input v-model="form.details" type="text" id="details" class="form-control form-control-sm col" autocomplete="off">
+              </div>
+
+              <div class="form-group row">
+                <label for="dueDate" class="col-3">Due Date</label>
+                <input v-model="form.dueDate" type="date" id="dueDate" class="form-control form-control-sm col" autocomplete="off">
+              </div>
+
+              <div class="form-group row">
+                <label for="entryStatusIdRef" class="col-3">Entry Status</label>
+                <select class="form-control col" id="entryStatusIdRef" v-model="form.entryStatusIdRef">
+                  <option v-for="item in entryStatuses" v-bind:key="item.todoStatusId" v-bind:value="item.todoStatusId">{{ item.choiceName }}</option>
+                </select>
               </div>
 
               <div class="form-group row">
@@ -135,6 +151,7 @@
 export default {
   name: 'TodoList'
   , mounted() {
+    this.onGetEntryStatuses();
     this.onGetListing(true);
   }
 
@@ -149,21 +166,16 @@ export default {
       alertCssClass: "secondary",
       alertDismissSecs: 5,
       alertDismissCountDown: 0,
-      perPage: 20,
-      currentPage: 1,
-      fields: [
-        { key: 'todoEntryId', label: 'ID' },
-        { key: 'summary', label: 'Summary' },
-        { key: 'details', label: 'Details' }
-      ],
       items: [
       ],
       form: {
         todoEntryId: '',
         summary: '',
-        details: null
+        details: null,
+        dueDate: null,
+        entryStatusIdRef: null
       },
-      foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+      entryStatuses: [],
       formVisible: true
     }
   }
@@ -188,6 +200,11 @@ export default {
     }
 
     , showForm() {
+      this.tableVisible = false;
+    }
+
+    , addForm() {
+      this.onClearForm();
       this.tableVisible = false;
     }
 
@@ -226,6 +243,37 @@ export default {
       this.form.todoEntryId = '';
       this.form.summary = '';
       this.form.details = '';
+      this.form.dueDate = null;
+      this.form.entryStatusIdRef = null;
+    }
+
+    , onGetEntryStatuses() {
+      this.TodoListApi.get('/TodoStatus')
+        .then(request => this.onGetEntryStatusesSuccess(request))
+        .catch(() => this.onGetEntryStatusesFail())
+    }
+
+    , onGetEntryStatusesSuccess(request) {
+      this.entryStatuses = request.data;
+    }
+
+    , onGetEntryStatusesFail() {
+      this.setAlert("An error has occurred.  Unable to get entry statuses.", "danger");
+    }
+
+    , translateEntryStatusId(id) {
+      var descr = "";
+
+      if (id != null) {
+        for (let item of this.entryStatuses) {
+          if (item.todoStatusId == id) {
+            descr = item.choiceName;
+            break;
+          }
+        }
+      }
+
+      return descr;
     }
 
     , onGetListing(showStatusAlert) {
@@ -271,8 +319,8 @@ export default {
           "todoEntryId": null,
           "summary": this.form.summary,
           "details": this.form.details,
-          "dueDate": null,
-          "entryStatusIdRef": null
+          "dueDate": new Date(this.form.dueDate).toJSON().slice(0,10),
+          "entryStatusIdRef": this.form.entryStatusIdRef
         })
           .then(request => this.onSaveSuccess(request))
           .catch(() => this.onSaveFail());
@@ -284,15 +332,15 @@ export default {
           "todoEntryId": this.form.todoEntryId,
           "summary": this.form.summary,
           "details": this.form.details,
-          "dueDate": null,
-          "entryStatusIdRef": null
+          "dueDate": new Date(this.form.dueDate).toJSON().slice(0,10),
+          "entryStatusIdRef": this.form.entryStatusIdRef
         })
           .then(request => this.onSaveSuccess(request))
           .catch(() => this.onSaveFail());
       }
     }
 
-    , onSaveSuccess(req) {
+    , onSaveSuccess(request) {
       this.setAlert("Saved!", "success");
       this.tableRefreshNeeded = true;
     }
@@ -322,6 +370,8 @@ export default {
         this.form.todoEntryId = item.todoEntryId;
         this.form.summary = item.summary;
         this.form.details = item.details;
+        this.form.dueDate = item.dueDate;
+        this.form.entryStatusIdRef = item.entryStatusIdRef;
 
         this.showForm();
       }

@@ -30,7 +30,7 @@ namespace TodoList.Infrastructure.Sqlite.RepositorySql
 				TodoEntryId
 				, Summary
 				, Details
-				, datetime(DueDate,'unixepoch') AS DueDate
+				, DueDate
 				, EntryStatusIdRef
 			FROM
 				TodoEntry
@@ -62,7 +62,7 @@ namespace TodoList.Infrastructure.Sqlite.RepositorySql
 				TodoEntryId
 				, Summary
 				, Details
-				, datetime(DueDate,'unixepoch') AS DueDate
+				, DueDate
 				, EntryStatusIdRef
 			FROM
 				TodoEntry
