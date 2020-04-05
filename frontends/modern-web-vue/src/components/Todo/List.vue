@@ -48,7 +48,7 @@
             <table class="table">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col" colspan="4">
+                  <th scope="col" colspan="6">
                     <button class="btn btn-success btn-sm float-right" title="add new" @click="addForm()"><b-icon icon="plus"></b-icon></button>
                     <button class="btn btn-primary btn-sm float-right" title="refresh listing" @click="onGetListing(true)"><b-icon icon="arrow-repeat"></b-icon></button>
                   </th>
@@ -73,7 +73,7 @@
                   <td>{{ item.todoEntryId }}</td>
                   <td>{{ item.summary }}</td>
                   <td>{{ item.details }}</td>
-                  <td>{{ item.dueDate }}</td>
+                  <td>{{ translateDateTime(item.dueDate) }}</td>
                   <td>{{ translateEntryStatusId(item.entryStatusIdRef) }}</td>
                 </tr>
               </tbody>
@@ -101,7 +101,7 @@
 
               <div class="form-group row">
                 <label for="dueDate" class="col-3">Due Date</label>
-                <input v-model="form.dueDate" type="date" id="dueDate" class="form-control form-control-sm col" autocomplete="off">
+                <input v-model="form.dueDate" type="datetime-local" id="dueDate" class="form-control form-control-sm col" autocomplete="off">
               </div>
 
               <div class="form-group row">
@@ -127,22 +127,17 @@
     </div>
 
 
-
-    <div class="row">
-      <br />
-      <br />
-    </div>
-
-    
-
-    
-
     <!-- form debug -->
+    <!--
     <b-row v-if="isFormVisible()">
+      <br />
+      <br />
       <b-card class="mt-3" header="Form Data Result">
         <pre class="m-0">{{ form }}</pre>
       </b-card>
     </b-row>
+    -->
+
   </div>
 </template>
 
@@ -276,6 +271,32 @@ export default {
       return descr;
     }
 
+    , translateDateTime(dateValue) {
+      var dateFomatted = "";
+
+      if (dateValue != null) {
+        var dateObj = new Date(dateValue);
+        if (dateObj != null && dateObj instanceof Date) {
+          var hours = dateObj.getHours();
+          var ampm = hours >= 12 ? 'PM' : 'AM';
+          hours = hours % 12;
+          hours = hours ? hours : 12; // the hour '0' should be '12'
+
+          dateFomatted = 
+                  ("00" + (dateObj.getMonth() + 1)).slice(-2) 
+                  + "/" + ("00" + dateObj.getDate()).slice(-2) 
+                  + "/" + dateObj.getFullYear() + " " 
+                  + ("00" + hours).slice(-2) + ":" 
+                  + ("00" + dateObj.getMinutes()).slice(-2) 
+                  + ":" + ("00" + dateObj.getSeconds()).slice(-2)
+                  + " "
+                  + ampm;
+        }
+      }
+
+      return dateFomatted
+    }
+
     , onGetListing(showStatusAlert) {
       this.tableLoading = true;
 
@@ -319,7 +340,7 @@ export default {
           "todoEntryId": null,
           "summary": this.form.summary,
           "details": this.form.details,
-          "dueDate": new Date(this.form.dueDate).toJSON().slice(0,10),
+          "dueDate": new Date(this.form.dueDate).toJSON(),
           "entryStatusIdRef": this.form.entryStatusIdRef
         })
           .then(request => this.onSaveSuccess(request))
@@ -332,7 +353,7 @@ export default {
           "todoEntryId": this.form.todoEntryId,
           "summary": this.form.summary,
           "details": this.form.details,
-          "dueDate": new Date(this.form.dueDate).toJSON().slice(0,10),
+          "dueDate": new Date(this.form.dueDate).toJSON(),
           "entryStatusIdRef": this.form.entryStatusIdRef
         })
           .then(request => this.onSaveSuccess(request))
