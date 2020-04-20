@@ -9,13 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/simple" v-if="hasPermission('Feature1','View')">Simple</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/table" v-if="hasPermission('Feature2','View')">Table</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/todolist" v-if="hasPermission('Feature3','View')">Todo List</router-link>
+                    <router-link class="nav-link" to="/Todolist" v-if="hasPermission('Feature1','View')">Todo List</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link" to="/login" v-if="hasAccount() == false">Login</router-link>
@@ -39,16 +33,20 @@
     <div class="row">
       <div class="page-footer fixed-bottom border-top bg-dark">
         <div class="row">
-          <div class="col-3">
+          <div class="col col-md-3 col-sm-12">
           </div>
-          <div class="col-3">
+          <div class="col-md-3 col-sm-12">
             <small class="d-block text-muted">Daniel A. Dawson © 2020</small>
           </div>
-          <div class="col-3">
-            <a href="#"><small class="d-block text-muted">Terms of Service</small></a>
+          <div class=" col-md-3 col-sm-12">
+            <router-link to="/TermsOfService">
+              <small class="d-block text-muted">Terms of Service</small>
+            </router-link>
           </div>
-          <div class="col-3">
-            <a href="#"><small class="d-block text-muted">Privacy Policy</small></a>
+          <div class="col-md-3 col-sm-12">
+            <router-link to="/PrivacyPolicy">
+              <small class="d-block text-muted">Privacy Policy</small>
+            </router-link>
           </div>
         </div>
       </div>
@@ -60,7 +58,7 @@
 <script>
 export default {
   updated() {
-    var anonymousRoutes = ['/', '/login', '/logout', '/terms', '/privacy'];
+    var anonymousRoutes = ['/', '/login', '/logout', '/TermsOfService', '/PrivacyPolicy'];
     if (!localStorage.token && !anonymousRoutes.includes(this.$route.path)) {
       this.$router.push('/login?redirect=' + this.$route.path);
     }

@@ -82,34 +82,29 @@
 
           <!-- form -->
           <div class="row" v-if="isFormVisible()">
-            <form class="col-12" @submit.prevent="onSave">
+            <form class="col col-lg-6 col-md-10 col-sm-12" @submit.prevent="onSave">
 
-              <div class="form-group row">
-                <label for="todoEntryId" class="col-3">ID</label>
-                <input v-model="form.todoEntryId" type="text" id="todoEntryId" class="form-control form-control-sm col" autocomplete="off" readonly>
-              </div>
+              <label for="todoEntryId">ID</label>
+              <input v-model="form.todoEntryId" type="text" id="todoEntryId" class="form-control form-control-sm col" autocomplete="off" readonly>
+              <br />
+              
+              <label for="summary">Summary</label>
+              <input v-model="form.summary" type="text" id="summary" class="form-control form-control-sm col" autocomplete="off" required autofocus>
+              <br />
 
-              <div class="form-group row">
-                <label for="summary" class="col-3">Summary</label>
-                <input v-model="form.summary" type="text" id="summary" class="form-control form-control-sm col" autocomplete="off" required autofocus>
-              </div>
+              <label for="details">Details</label>
+              <input v-model="form.details" type="text" id="details" class="form-control form-control-sm col" autocomplete="off">
+              <br />
 
-              <div class="form-group row">
-                <label for="details" class="col-3">Details</label>
-                <input v-model="form.details" type="text" id="details" class="form-control form-control-sm col" autocomplete="off">
-              </div>
+              <label for="dueDate">Due Date</label>
+              <input v-model="form.dueDate" type="datetime-local" id="dueDate" class="form-control form-control-sm col" autocomplete="off">
+              <br />
 
-              <div class="form-group row">
-                <label for="dueDate" class="col-3">Due Date</label>
-                <input v-model="form.dueDate" type="datetime-local" id="dueDate" class="form-control form-control-sm col" autocomplete="off">
-              </div>
-
-              <div class="form-group row">
-                <label for="entryStatusIdRef" class="col-3">Entry Status</label>
-                <select class="form-control col" id="entryStatusIdRef" v-model="form.entryStatusIdRef">
-                  <option v-for="item in entryStatuses" v-bind:key="item.todoStatusId" v-bind:value="item.todoStatusId">{{ item.choiceName }}</option>
-                </select>
-              </div>
+              <label for="entryStatusIdRef">Entry Status</label>
+              <select class="form-control col" id="entryStatusIdRef" v-model="form.entryStatusIdRef">
+                <option v-for="item in entryStatuses" v-bind:key="item.todoStatusId" v-bind:value="item.todoStatusId">{{ item.choiceName }}</option>
+              </select>
+              <br />
 
               <div class="form-group row">
                 <div class="col-12">
@@ -117,6 +112,8 @@
                   <button type="submit" class="btn btn-primary btn-sm float-right">Save</button>
                 </div>
               </div>
+              <br />
+              <br />
 
             </form>
           </div>

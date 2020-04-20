@@ -1,4 +1,8 @@
+*/**/bin/Debug
+*/**/bin/Release
+*/**/obj/Debug
+*/**/obj/Release
+*.log
 
 backends/LoyalGuard/structure\.json
 
-*.log

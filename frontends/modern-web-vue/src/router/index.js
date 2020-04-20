@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+import Landing from '@/components/Landing';
+import PrivacyPolicy from '@/components/PrivacyPolicy';
+import TermsOfService from '@/components/TermsOfService';
+
 import LoyalGuardLogin from '@/components/LoyalGuard/Login'
 import TodoList from '@/components/Todo/List'
 
-import Landing from '../components/Landing';
-import Simple from '../components/Simple';
-import Table from '../components/Table';
+
 
 Vue.use(Router)
 
@@ -22,17 +25,17 @@ export default new Router({
       component: Landing
     },
     {
-        path: '/simple',
-        name: 'Simple',
-        component: Simple
+      path: '/PrivacyPolicy',
+      name: 'PrivacyPolicy',
+      component: PrivacyPolicy
     },
     {
-        path: '/table',
-        name: 'Table',
-        component: Table
+      path: '/TermsOfService',
+      name: 'TermsOfService',
+      component: TermsOfService
     },
     {
-      path: '/todolist',
+      path: '/Todolist',
       name: 'TodoList',
       component: TodoList
   }
