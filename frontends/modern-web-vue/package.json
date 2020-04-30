@@ -12,7 +12,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.2.0",
     "core-js": "^3.4.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "popper.js": "^1.16.0",
     "portal-vue": "^2.1.7",
     "vue": "^2.6.10",
