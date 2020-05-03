@@ -6,12 +6,14 @@
       <br />
     </div>
     <div class="row mx-auto">
-      <b-jumbotron header="Modern Web Vue" lead="Vue 3, Bootstrap 4, Brash 1">
-        <p>
-          An experiment using vue, bootstrap to display data from asp core 3, brash, and sqlite.
-        </p>
-      </b-jumbotron>
-    
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1>Modern Web Vue</h1>
+          <p>
+            An experiment using vue, bootstrap to display data from asp core 3, brash, and sqlite.
+          </p>
+        </div>
+      </div>   
     </div>
   </div>
 </template>

@@ -1,39 +1,28 @@
 <template>
   <div class="container-fluid h-100">
 
-    <div class="row">
+    <div class="row justify-content-md-center">
       <h2>Todo</h2>
     </div>
 
     <!-- alert box -->
-    <b-row class="justify-content-md-center">
-      <b-alert
-        :show="alertDismissCountDown"
-        dismissible
-        @dismissed="alertDismissCountDown=0"
-        @dismiss-count-down="alertCountDownChanged">
-        <p>{{ alertMessage }}</p>
-        <b-progress
-          :class="{ alertCssClass }"
-          :max="alertDismissSecs"
-          :value="alertDismissCountDown"
-          height="4px">
-        </b-progress>
-      </b-alert>
-    </b-row>
+    <div class="alert alert-primary alert-dismissible fade show" :class="{ alertCssClass }" v-if="hasAlert()">
+      <button type="button" class="close" @click="hideAlert()">&times;</button>
+      {{ alertMessage }}
+    </div>
 
     <!-- loading spinner -->
-    <b-row class="justify-content-md-center" v-if="isLoading()">
-      <b-spinner variant="primary" label="Spinning"></b-spinner>
-    </b-row>
+    <div class="row justify-content-md-center" v-if="isLoading()">
+      <div class="spinner-border text-primary"></div>
+    </div>
 
     <!-- title bar -->
-    <div class="row">
+    <div class="row no-gutters">
       <div class="card col-12">
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-              <a class="nav-link" href="#" :class="isTableVisible() ? 'active' : ''" @click="showTable()">Listing</a>
+              <a class="nav-link" href="#" :class="isListingVisible() ? 'active' : ''" @click="showListing()">Listing</a>
             </li>
             <li class="nav-item" >
               <a class="nav-link" href="#" :class="isFormVisible() ? 'active' : ''" @click="showForm()">Form</a>
@@ -44,13 +33,17 @@
         <div class="card-body">
             
           <!-- table listing -->
-          <div class="row" v-if="isTableVisible()">
+          <div class="row justify-content-md-center" v-if="isListingVisible()">
             <table class="table">
               <thead class="thead-light">
                 <tr>
                   <th scope="col" colspan="6">
-                    <button class="btn btn-success btn-sm float-right" title="add new" @click="addForm()"><b-icon icon="plus"></b-icon></button>
-                    <button class="btn btn-primary btn-sm float-right" title="refresh listing" @click="onGetListing(true)"><b-icon icon="arrow-repeat"></b-icon></button>
+                    <button class="btn btn-success btn-sm float-right" title="add new" @click="addForm()">
+                      <i class="material-icons" style="font-size:12px;">add</i>
+                    </button>
+                    <button class="btn btn-primary btn-sm float-right" title="refresh listing" @click="onGetListing(true)">
+                      <i class="material-icons" style="font-size:12px;">refresh</i>
+                    </button>
                   </th>
                 </tr>
               </thead>
@@ -66,9 +59,13 @@
               </thead>
               <tbody>
                 <tr v-for='(item, index) in this.items' :key='item.todoEntryId'>
-                  <th scope="row">
-                    <button class="btn btn-danger btn-sm float-right" title="remove" @click="onRemove(index)"><b-icon icon="trash"></b-icon></button>
-                    <button class="btn btn-secondary btn-sm float-right" title="edit" @click="onEdit(index)"><b-icon icon="pencil"></b-icon></button>
+                  <th>
+                    <button class="btn btn-danger btn-sm" title="remove" @click="onRemove(index)">
+                      <i class="material-icons" style="font-size:12px;">delete</i>
+                    </button>
+                    <button class="btn btn-secondary btn-sm" title="edit" @click="onEdit(index)">
+                      <i class="material-icons" style="font-size:12px;">edit</i>
+                    </button>
                   </th>
                   <td>{{ item.todoEntryId }}</td>
                   <td>{{ item.summary }}</td>
@@ -81,7 +78,7 @@
           </div>
 
           <!-- form -->
-          <div class="row" v-if="isFormVisible()">
+          <div class="row justify-content-md-center" v-if="isFormVisible()">
             <form class="col col-lg-6 col-md-10 col-sm-12" @submit.prevent="onSave">
 
               <label for="todoEntryId">ID</label>
@@ -108,8 +105,8 @@
 
               <div class="form-group row">
                 <div class="col-12">
-                  <button type="reset" class="btn btn-warning btn-sm float-right" title="clear" @click="onReset"><b-icon icon="x-square"></b-icon></button>
-                  <button type="submit" class="btn btn-primary btn-sm float-right">Save</button>
+                  <button type="reset" class="btn btn-warning float-right" title="clear" @click="onReset">Clear</button>
+                  <button type="submit" class="btn btn-primary float-right">Save</button>
                 </div>
               </div>
               <br />
@@ -122,19 +119,6 @@
         </div>
       </div>
     </div>
-
-
-    <!-- form debug -->
-    <!--
-    <b-row v-if="isFormVisible()">
-      <br />
-      <br />
-      <b-card class="mt-3" header="Form Data Result">
-        <pre class="m-0">{{ form }}</pre>
-      </b-card>
-    </b-row>
-    -->
-
   </div>
 </template>
 
@@ -150,16 +134,21 @@ export default {
   , data() {
 
     return {
-      tableRefreshNeeded: false,
-      tableVisible: true,
-      tableLoading: false,
+      
+      // alert data
       alert: false,
       alertMessage: "",
-      alertCssClass: "secondary",
-      alertDismissSecs: 5,
-      alertDismissCountDown: 0,
+      alertCssClass: "alert-primary",
+
+      // listing data
+      listingRefreshNeeded: false,
+      listingVisible: true,
+      listingLoading: false,
       items: [
       ],
+
+      // form data
+      formVisible: true,
       form: {
         todoEntryId: '',
         summary: '',
@@ -167,8 +156,10 @@ export default {
         dueDate: null,
         entryStatusIdRef: null
       },
+
+      // drop down data
       entryStatuses: [],
-      formVisible: true
+      
     }
   }
 
@@ -179,96 +170,10 @@ export default {
   }
 
   , methods: {
-    toggleTableVisible() {
-      this.tableVisible = !this.tableVisible;
-    }
 
-    , showTable() {
-      this.tableVisible = true;
+    // global data helpers
 
-      if (this.tableRefreshNeeded) {
-        this.onGetListing(false);
-      }
-    }
-
-    , showForm() {
-      this.tableVisible = false;
-    }
-
-    , addForm() {
-      this.onClearForm();
-      this.tableVisible = false;
-    }
-
-    , isTableVisible() {
-      return this.tableVisible;
-    }
-
-    , isFormVisible() {
-      return !this.tableVisible;
-    }
-
-    , isLoading() {
-      return this.tableLoading;
-    }
-
-    , setAlert(message, cssClass) {
-      if (message == false) {
-        this.alertDismissCountDown = 0;
-        this.alertMessage = "";
-      } else {
-        this.alertDismissCountDown = this.alertDismissSecs;
-        this.alertMessage = message;
-      }
-
-      this.alertCssClass = "secondary";
-      if (cssClass != null && cssClass.length > 0) {
-        this.alertCssClass = cssClass;
-      }
-    }
-
-    , alertCountDownChanged(dismissCountDown) {
-      this.alertDismissCountDown = dismissCountDown;
-    }
-
-    , onClearForm() {
-      this.form.todoEntryId = '';
-      this.form.summary = '';
-      this.form.details = '';
-      this.form.dueDate = null;
-      this.form.entryStatusIdRef = null;
-    }
-
-    , onGetEntryStatuses() {
-      this.TodoListApi.get('/TodoStatus')
-        .then(request => this.onGetEntryStatusesSuccess(request))
-        .catch(() => this.onGetEntryStatusesFail())
-    }
-
-    , onGetEntryStatusesSuccess(request) {
-      this.entryStatuses = request.data;
-    }
-
-    , onGetEntryStatusesFail() {
-      this.setAlert("An error has occurred.  Unable to get entry statuses.", "danger");
-    }
-
-    , translateEntryStatusId(id) {
-      var descr = "";
-
-      if (id != null) {
-        for (let item of this.entryStatuses) {
-          if (item.todoStatusId == id) {
-            descr = item.choiceName;
-            break;
-          }
-        }
-      }
-
-      return descr;
-    }
-
-    , translateDateTime(dateValue) {
+    translateDateTime(dateValue) {
       var dateFomatted = "";
 
       if (dateValue != null) {
@@ -294,8 +199,43 @@ export default {
       return dateFomatted
     }
 
+    // alert methods
+    , hasAlert() {
+      return this.alert;
+    }
+
+    , hideAlert() {
+      this.alert = false;
+      this.alertCssClass = "alert-primary";
+      this.alertMessage = "";
+    }
+
+    , setAlert(message, cssClass) {
+      this.alert = true;
+
+      if (message == false) {
+        this.alertMessage = "";
+      } else {
+        this.alertMessage = message;
+      }
+
+      this.alertCssClass = "alert-primary";
+      if (cssClass != null && cssClass.length > 0) {
+        this.alertCssClass = cssClass;
+      }
+    }
+
+    // listing methods
+    , isListingVisible() {
+      return this.listingVisible;
+    }
+
+    , isLoading() {
+      return this.listingLoading;
+    }
+
     , onGetListing(showStatusAlert) {
-      this.tableLoading = true;
+      this.listingLoading = true;
 
       this.TodoListApi.get('/TodoEntry')
         .then(request => this.onGetListingSuccess(request, showStatusAlert))
@@ -307,24 +247,58 @@ export default {
 
       if (this.items.length == 0) {
         if (showStatusAlert) {
-          this.setAlert("No data found.", "warning");
+          this.setAlert("No data found.", "alert-warning");
         }
-        this.tableVisible = false;
+        this.listingVisible = false;
       }
       else {
         if (showStatusAlert) {
-          this.setAlert("Loaded " + this.rows + " records", "secondary");
+          this.setAlert("Loaded " + this.rows + " records", "alert-primary");
         }
-        this.tableVisible = true;
+        this.listingVisible = true;
       }
 
-      this.tableLoading = false;
-      this.tableRefreshNeeded = false;
+      this.listingLoading = false;
+      this.listingRefreshNeeded = false;
     }
 
     , onGetListingFail() {
-      this.tableLoading = false;
-      this.setAlert("An error has occurred.", "danger");
+      this.listingLoading = false;
+      this.setAlert("An error has occurred.", "alert-danger");
+    }
+
+    , showListing() {
+      this.listingVisible = true;
+
+      if (this.listingRefreshNeeded) {
+        this.onGetListing(false);
+      }
+    }
+
+    , toggleListingVisible() {
+      this.listingVisible = !this.listingVisible;
+    }
+
+    // form methods
+    , showForm() {
+      this.listingVisible = false;
+    }
+
+    , addForm() {
+      this.onClearForm();
+      this.listingVisible = false;
+    }
+
+    , isFormVisible() {
+      return !this.listingVisible;
+    }
+
+    , onClearForm() {
+      this.form.todoEntryId = '';
+      this.form.summary = '';
+      this.form.details = '';
+      this.form.dueDate = null;
+      this.form.entryStatusIdRef = null;
     }
 
     , onSave(evt) {
@@ -360,11 +334,11 @@ export default {
 
     , onSaveSuccess(request) {
       this.setAlert("Saved!", "success");
-      this.tableRefreshNeeded = true;
+      this.listingRefreshNeeded = true;
     }
 
     , onSaveFail() {
-      this.setAlert("An error has occurred.", "danger");
+      this.setAlert("An error has occurred.", "alert-danger");
     }
     
     , onReset(evt) {
@@ -394,7 +368,7 @@ export default {
         this.showForm();
       }
       else {
-        this.setAlert("An error has occurred.", "danger");
+        this.setAlert("An error has occurred.", "alert-danger");
       }
     }
 
@@ -406,7 +380,7 @@ export default {
           .catch(() => this.onRemoveFail());
       }
       else {
-        this.setAlert("An error has occurred.", "danger");
+        this.setAlert("An error has occurred.", "alert-danger");
       }
     }
 
@@ -417,9 +391,41 @@ export default {
     }
 
     , onRemoveFail() {
-      this.setAlert("An error has occurred.", "danger");
+      this.setAlert("An error has occurred.", "alert-danger");
     }
-    
+
+    // drop downs
+
+    // Entry Statuses
+    , onGetEntryStatuses() {
+      this.TodoListApi.get('/TodoStatus')
+        .then(request => this.onGetEntryStatusesSuccess(request))
+        .catch(() => this.onGetEntryStatusesFail())
+    }
+
+    , onGetEntryStatusesSuccess(request) {
+      this.entryStatuses = request.data;
+    }
+
+    , onGetEntryStatusesFail() {
+      this.setAlert("An error has occurred.  Unable to get entry statuses.", "alert-danger");
+    }
+
+    , translateEntryStatusId(id) {
+      var descr = "";
+
+      if (id != null) {
+        for (let item of this.entryStatuses) {
+          if (item.todoStatusId == id) {
+            descr = item.choiceName;
+            break;
+          }
+        }
+      }
+
+      return descr;
+    }
+
   }
 }
 </script>
