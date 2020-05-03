@@ -44,7 +44,7 @@ namespace TodoList.Api
 			      app.UseCors(builder =>
             {
                 builder
-                    .WithOrigins("http://localhost:8080", "https://modernwebvue.ctrlshiftesc.com")
+                    .WithOrigins("http://localhost:8080", "https://modernwebvue.ctrlshiftesc.info")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials(); 
