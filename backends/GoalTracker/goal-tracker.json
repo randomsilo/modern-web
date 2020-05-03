@@ -1,0 +1,59 @@
+{ 
+    "Domain": "GoalTracker"
+	, "Structure": [
+		{
+			"Name": "GoalDisposition"
+			, "AdditionalPatterns": [
+				"Choice"
+			]
+			, "Choices": [
+				"A"
+				, "B"
+				, "C"
+			]
+		}
+		, {
+			"Name": "GoalState"
+			, "AdditionalPatterns": [
+				"Choice"
+			]
+			, "Choices": [
+				"X"
+				, "Y"
+				, "Z"
+			]
+		}
+		, {
+			"Name": "GoalStatus"
+			, "AdditionalPatterns": [
+				"Choice"
+			]
+			, "Choices": [
+				"1"
+				, "2"
+				, "3"
+			]
+		}
+		, {
+			"Name": "Goal"
+			, "Fields": [
+					{ "Name": "Description", "Type": "S" }
+					, { "Name": "Notes", "Type": "S" }
+			]
+			, "References": [
+				{
+					"ColumnName": "Disposition"
+					, "TableName": "GoalDisposition"
+				}
+				, {
+					"ColumnName": "State"
+					, "TableName": "GoalState"
+				}
+				, {
+					"ColumnName": "Status"
+					, "TableName": "GoalStatus"
+				}
+			]
+		}
+	]
+}

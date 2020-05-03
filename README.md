@@ -170,8 +170,11 @@ dotnet run
 
 The commands for creating the TodoList domain api are below.
 If you have cloned this application then the pieces should already be there.
-The commands below will only be useful if you are modifying LoyalGuard's functionality.
+The commands below will only be useful if you are modifying TodoList's functionality.
 The url, port, and other configuration entries can be changed in the BrashConfiguration.cs.
+
+This code might be different because it was built by hand.
+The files created were used to expand the brachcli to make vue files.
 
 Open two terminals:  
 One for brashcli commands starting in the brashcli directory outside of the application.
@@ -211,7 +214,7 @@ dotnet run cs-api-sqlite --file /shop/randomsilo/modern-web/backends/TodoList/to
 --pass API_THINGS_TO_DO \
 --port 6200 \
 --dev-site http://localhost:8080 \
---web-site https://modernwebvue.ctrlshiftesc.com
+--web-site https://modernwebvue.ctrlshiftesc.info
 
 ```
 
@@ -239,6 +242,93 @@ dotnet run
 #ctrl c to quit
 
 ```
+
+
+### Create GoalTracker
+
+The commands for creating the GoalTracker domain api are below.
+If you have cloned this application then the pieces should already be there.
+The commands below will only be useful if you are modifying GoalTracker's functionality.
+The url, port, and other configuration entries can be changed in the BrashConfiguration.cs.
+
+Open two terminals:  
+One for brashcli commands starting in the brashcli directory outside of the application.
+Another terminal for project based commands.
+
+* Change the paths to match your own directory structure.
+* Change the url to match your dns/certbot entries.
+
+```bash
+mkdir -p /shop/randomsilo/modern-web/backends/GoalTracker
+
+# from brashcli directory
+dotnet run project-init -n GoalTracker -d /shop/randomsilo/modern-web/backends/GoalTracker
+dotnet run data-init -n GoalTracker -d /shop/randomsilo/modern-web/backends/GoalTracker
+
+# make c# projects
+cd /shop/randomsilo/modern-web/backends/GoalTracker
+. ./init.sh
+
+# copy structure.json to goal-tracker.json
+# make appropriate changes 
+
+# from brashcli directory
+dotnet run sqlite-gen --file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json
+
+# combine sql scripts
+cd /shop/randomsilo/modern-web/backends/GoalTracker/sql/sqlite
+. ./combine.sh
+
+# from brashcli directory
+dotnet run cs-domain --file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json
+dotnet run cs-repo-sqlite --file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json
+dotnet run cs-xtest-sqlite --file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json
+
+dotnet run cs-api-sqlite --file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json \
+--user API_GOALTRACKER \
+--pass API_GOALTRACKER \
+--port 6300 \
+--dev-site http://localhost:8080 \
+--web-site https://modernwebvue.ctrlshiftesc.info
+
+dotnet run vue3-axios \
+--file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json \
+--user API_GOALTRACKER \
+--pass API_GOALTRACKER \
+--port 6300 \
+--output-dir /shop/randomsilo/modern-web/frontends/modern-web-vue/src/backend
+
+dotnet run vue3-bs4-gm-icons \
+--file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json \
+--output-dir /shop/randomsilo/modern-web/frontends/modern-web-vue/src/components
+
+```
+
+### Build GoalTracker
+
+```bash
+cd /shop/randomsilo/modern-web/backends/GoalTracker/
+cd GoalTracker.Domain
+dotnet build
+cd ..
+
+cd GoalTracker.Infrastructure
+dotnet build
+cd ..
+
+cd GoalTracker.Infrastructure.Test
+dotnet build
+dotnet test
+cd ..
+
+cd GoalTracker.Api
+dotnet build
+dotnet run
+
+#ctrl c to quit
+
+```
+
 
 ## Other Tools
 

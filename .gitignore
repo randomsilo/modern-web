@@ -2,6 +2,7 @@
 */**/bin/Release
 */**/obj/Debug
 */**/obj/Release
+*/**/TestOutput
 *.log
 
 backends/LoyalGuard/structure\.json

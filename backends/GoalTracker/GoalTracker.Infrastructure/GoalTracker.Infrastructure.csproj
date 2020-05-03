@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\GoalTracker.Domain\GoalTracker.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Brash" Version="1.0.2" />
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.112.2" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>
