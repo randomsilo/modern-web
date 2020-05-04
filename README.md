@@ -286,7 +286,7 @@ dotnet run cs-xtest-sqlite --file /shop/randomsilo/modern-web/backends/GoalTrack
 
 dotnet run cs-api-sqlite --file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json \
 --user API_GOALTRACKER \
---pass API_GOALTRACKER \
+--pass HE_SHOOTS_HE_SCORES \
 --port 6300 \
 --dev-site http://localhost:8080 \
 --web-site https://modernwebvue.ctrlshiftesc.info
@@ -294,7 +294,7 @@ dotnet run cs-api-sqlite --file /shop/randomsilo/modern-web/backends/GoalTracker
 dotnet run vue3-axios \
 --file /shop/randomsilo/modern-web/backends/GoalTracker/goal-tracker.json \
 --user API_GOALTRACKER \
---pass API_GOALTRACKER \
+--pass HE_SHOOTS_HE_SCORES \
 --port 6300 \
 --output-dir /shop/randomsilo/modern-web/frontends/modern-web-vue/src/backend
 

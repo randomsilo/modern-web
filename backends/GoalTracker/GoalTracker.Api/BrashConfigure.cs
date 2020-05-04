@@ -69,7 +69,7 @@ namespace GoalTracker.Api
 					new BrashApiAuthModel(){
 						ApiAuthId = 1
 						, ApiAuthName = "API_GOALTRACKER"
-						, ApiAuthPass = "API_GOALTRACKER"
+						, ApiAuthPass = "HE_SHOOTS_HE_SCORES"
 					});
 				});
 		}
